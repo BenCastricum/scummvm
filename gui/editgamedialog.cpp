@@ -162,7 +162,7 @@ EditGameDialog::EditGameDialog(const String &domain)
 	const Common::LanguageDescription *l = Common::g_languages;
 	for (; l->code; ++l) {
 		if (checkGameGUIOptionLanguage(l->id, _guioptionsString))
-			_langPopUp->appendEntry(l->description, l->id);
+			_langPopUp->appendEntry(_(l->description), l->id);
 	}
 
 	// Platform popup

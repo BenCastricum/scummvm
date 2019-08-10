@@ -126,7 +126,7 @@ Common::String DetectedGame::updateDesc(bool skipExtraField) const {
 	if (hasCustomLanguage) {
 		if (hasExtraDesc || hasCustomPlatform)
 			descr += "/";
-		descr += Common::getLanguageDescription(language);
+		descr += _(Common::getLanguageDescription(language));
 	}
 
 	descr += ")";
