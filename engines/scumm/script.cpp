@@ -579,6 +579,10 @@ int ScummEngine::readVar(uint var) {
 					return 0;
 				} else if (_game.id == GID_ZAK && (_game.platform == Common::kPlatformFMTowns) && var == 151 && bit == 8) {
 					return 0;
+				} else if (_game.id == GID_INDY3 && (_game.platform == Common::kPlatformAmiga) && var == 94 && bit == 4) {
+					return 0;
+				} else if (_game.id == GID_INDY3 && (_game.platform == Common::kPlatformAtariST) && var == 94 && bit == 4) {
+					return 0;
 				}
 			}
 

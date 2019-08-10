@@ -1308,6 +1308,20 @@ void ScummEngine_v5::o5_loadRoom() {
 
 	room = getVarOrDirectByte(PARAM_1);
 
+	if (!_copyProtection) {
+		if (_game.id == GID_INDY3 && room == 92) {
+			int16 offset = _scriptPointer - _scriptOrgPointer;
+			if ((_game.platform == Common::kPlatformAmiga && offset == 0x5BD) ||
+			    (_game.platform == Common::kPlatformAtariST && offset == 0x5B9)) {
+				// Move the pointer past the copyprotection check. This code is
+				// encountered when the users wants to skip the cutscene where
+				// Indy meets Marcus for the first time.
+				_scriptPointer += 6;
+				return;
+			}
+		}
+	}
+
 	// For small header games, we only call startScene if the room
 	// actually changed. This avoid unwanted (wrong) fades in Zak256
 	// and others. OTOH, it seems to cause a problem in newer games.
@@ -1443,6 +1457,20 @@ void ScummEngine_v5::o5_print() {
 }
 
 void ScummEngine_v5::o5_printEgo() {
+
+	if (!_copyProtection) {
+		if (_game.id == GID_INDY3) {
+			int16 offset = _scriptPointer - _scriptOrgPointer;
+			if ((_game.platform == Common::kPlatformAmiga && (offset == 0x407)) ||
+			    (_game.platform == Common::kPlatformAtariST && (offset == 0x403))) {
+				// Move the pointer past the copyprotection check, so it looks
+				// the same as the IBM 256 color version. Not neccesary since we
+				// already fixed the copyprotection elsewhere, but it looks nicer
+				// because it's now completely hidden.
+				_scriptPointer += 0x11C;
+			}
+		}
+	}
 	_actorToPrintStrFor = (byte)VAR(VAR_EGO);
 	decodeParseString();
 }
