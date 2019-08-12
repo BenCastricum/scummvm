@@ -84,8 +84,12 @@ DetectedGame::DetectedGame(const Common::String &engine, const Common::String &i
 
 	gameId = id;
 	preferredTarget = id;
-	description = d;
 	language = l;
+	Common::Language cl = Common::parseLanguageFromLocale(TransMan.getCurrentLanguage().c_str());
+	if (cl == language)
+		description = _(d);
+	else
+		description = d;
 	platform = p;
 	extra = ex;
 

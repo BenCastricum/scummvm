@@ -1,0 +1,84 @@
+# LANGUAGE translation for ScummVM.
+# Copyright (C) YEAR ScummVM Team
+# This file is distributed under the same license as the ScummVM package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ScummVM 1.8.0git\n"
+"Report-Msgid-Bugs-To: scummvm-devel@lists.sf.net\n"
+"POT-Creation-Date: 2014-10-04 00:58+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Putt-Putt Saves the Zoo"
+msgstr ""
+
+msgid "Putt-Putt Travels Through Time"
+msgstr ""
+
+msgid "Putt-Putt Enters the Race"
+msgstr ""
+
+msgid "Putt-Putt Joins the Circus"
+msgstr ""
+
+msgid "Putt-Putt and Pep's Balloon-O-Rama"
+msgstr ""
+
+msgid "Putt-Putt and Pep's Dog on a Stick"
+msgstr ""
+
+msgid "Freddi Fish 1: The Case of the Missing Kelp Seeds"
+msgstr ""
+
+msgid "Freddi Fish 2: The Case of the Haunted Schoolhouse"
+msgstr ""
+
+msgid "Freddi Fish 3: The Case of the Stolen Conch Shell"
+msgstr ""
+
+msgid "Freddi Fish 4: The Case of the Hogfish Rustlers of Briny Gulch"
+msgstr ""
+
+msgid "Freddi Fish 5: The Case of the Creature of Coral Cove"
+msgstr ""
+
+msgid "Freddi Fish and Luther's Maze Madness"
+msgstr ""
+
+msgid "Freddi Fish and Luther's Water Worries"
+msgstr ""
+
+msgid "Freddi Fish's One-Stop Fun Shop"
+msgstr ""
+
+msgid "Pajama Sam 1: No Need to Hide When It's Dark Outside"
+msgstr ""
+
+msgid "Pajama Sam 2: Thunder and Lightning Aren't so Frightening"
+msgstr ""
+
+msgid "Pajama Sam 3: You Are What You Eat From Your Head to Your Feet"
+msgstr ""
+
+msgid "Pajama Sam's Lost & Found"
+msgstr ""
+
+msgid "Pajama Sam's Sock Works"
+msgstr ""
+
+msgid "SPY Fox 1: Dry Cereal"
+msgstr ""
+
+msgid "SPY Fox 2: Some Assembly Required"
+msgstr ""
+
+msgid "Let's Explore the Farm with Buzzy"
+msgstr ""

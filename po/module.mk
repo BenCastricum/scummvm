@@ -1,5 +1,5 @@
 POTFILE := $(srcdir)/po/scummvm.pot
-POFILES := $(wildcard $(srcdir)/po/*.po $(srcdir)/po/languages/*.po)
+POFILES := $(wildcard $(srcdir)/po/*.po $(srcdir)/po/languages/*.po $(srcdir)/engines/scumm/*.po)
 CPFILES := $(wildcard $(srcdir)/po/*.cp)
 
 ENGINE_INPUT_POTFILES := $(sort $(wildcard $(srcdir)/engines/*/POTFILES))
