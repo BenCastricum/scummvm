@@ -1,0 +1,87 @@
+# LANGUAGE translation for ScummVM.
+# Copyright (C) YEAR ScummVM Team
+# This file is distributed under the same license as the ScummVM package.
+# FIRST AUTHOR scummm@bencastricum.nl, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ScummVM 1.8.0git\n"
+"Report-Msgid-Bugs-To: scummvm-devel@lists.sf.net\n"
+"POT-Creation-Date: 2014-10-29 13:31+0100\n"
+"PO-Revision-Date: 2014-10-29 13:39+0100\n"
+"Last-Translator: Ben Castricum <scummvm@bencastricum.nl>\n"
+"Language-Team: Ben Castricum <scummvm@bencastricum.nl>\n"
+"Language: Nederlands\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Putt-Putt Saves the Zoo"
+msgstr "Putt-Putt 1: Putt-Putt redt de Zoo"
+
+msgid "Putt-Putt Travels Through Time"
+msgstr "Putt-Putt 2: De Reis Door De Tijd"
+
+msgid "Putt-Putt Enters the Race"
+msgstr "Putt-Putt 3: De Autostad 500"
+
+msgid "Putt-Putt Joins the Circus"
+msgstr "Putt-Putt 4: In het Circus"
+
+msgid "Putt-Putt and Pep's Balloon-O-Rama"
+msgstr "Putt-Putt en Peps Ballon-O-Rama"
+
+msgid "Putt-Putt and Pep's Dog on a Stick"
+msgstr "Putt-Putt en Peps Springparadijs"
+
+msgid "Freddi Fish 1: The Case of the Missing Kelp Seeds"
+msgstr "Freddi Fish 1: Het Verhaal van de Verdwenen Zeewierzaadjes"
+
+msgid "Freddi Fish 2: The Case of the Haunted Schoolhouse"
+msgstr "Freddi Fish 2: Het Mysterie van de Spoken op School"
+
+msgid "Freddi Fish 3: The Case of the Stolen Conch Shell"
+msgstr "Freddi Fish 3: De Zaak van de Gestolen Trompetschelp"
+
+msgid "Freddi Fish 4: The Case of the Hogfish Rustlers of Briny Gulch"
+msgstr "Freddi Fish 4: De Kidnapping in de Zilte Zee"
+
+msgid "Freddi Fish 5: The Case of the Creature of Coral Cove"
+msgstr "Freddi Fish 5: De Zaak Zeemonster"
+
+msgid "Freddi Fish and Luther's Maze Madness"
+msgstr "Freddi Fish en Loebas' Dolle Doolhof"
+
+msgid "Freddi Fish and Luther's Water Worries"
+msgstr "Freddi Fish en Loebas' Water Werken"
+
+msgid "Freddi Fish's One-Stop Fun Shop"
+msgstr "Freddi Fish' Knutselbox"
+
+msgid "Pajama Sam 1: No Need to Hide When It's Dark Outside"
+msgstr "Pajama Sam 1: De Helse Jacht Op De Duistere Nacht"
+
+msgid "Pajama Sam 2: Thunder and Lightning Aren't so Frightening"
+msgstr "Pajama Sam 2: Doe Niet Onder Voor Bliksem En Donder"
+
+msgid "Pajama Sam 3: You Are What You Eat From Your Head to Your Feet"
+msgstr "Pajama Sam 3: Je Bent Wat Je Eet, 't Is Maar Dat Je Het Weet"
+
+msgid "Pajama Sam's Lost & Found"
+msgstr "Pajama Sams Verloren Voorwerpen"
+
+msgid "Pajama Sam's Sock Works"
+msgstr "Pajama Sams Sokkensoep"
+
+msgid "SPY Fox 1: Dry Cereal"
+msgstr "SPY Fox 1: Operatie \"Melk Weg\""
+
+msgid "SPY Fox 2: Some Assembly Required"
+msgstr "SPY Fox 2: Operatie Robot-Knop"
+
+msgid "Let's Explore the Farm with Buzzy"
+msgstr "Ontdek De Boerderij Met Barabas De Boekenbij"
+
+# Het spel is alleen in demo versie uitgebracht met slechts "De Luchthaven" als naam.
+msgid "Let's Explore the Airport with Buzzy"
+msgstr "Ontdek De Luchthaven Met Barabas De Boekenbij"
