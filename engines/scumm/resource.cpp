@@ -699,7 +699,9 @@ int ScummEngine::loadResource(ResType type, ResId idx) {
 
 	// dump the resource if requested
 	if (_dumpScripts && type == rtScript) {
-		dumpResource("script-", idx, getResourceAddress(rtScript, idx));
+		char buf[32];
+		sprintf(buf, "room-%d-script-", _roomResource);
+		dumpResource(buf, idx, getResourceAddress(rtScript, idx));
 	}
 
 	if (_fileHandle->err() || _fileHandle->eos()) {

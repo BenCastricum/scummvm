@@ -297,8 +297,11 @@ void ScummEngine::setupRoomSubBlocks() {
 	ptr = findResourceData(MKTAG('E','X','C','D'), roomResPtr);
 	if (ptr)
 		_EXCD_offs = ptr - roomResPtr;
-	if (_dumpScripts && _EXCD_offs)
-		dumpResource("exit-", _roomResource, roomResPtr + _EXCD_offs - _resourceHeaderSize, -1);
+	if (_dumpScripts && _EXCD_offs) {
+		char buf[32];
+		sprintf(buf, "room-%d-excd-", _roomResource);
+		dumpResource(buf, _roomResource, roomResPtr + _EXCD_offs - _resourceHeaderSize, -1);
+	}
 
 	//
 	// Look for an entry script
@@ -306,8 +309,11 @@ void ScummEngine::setupRoomSubBlocks() {
 	ptr = findResourceData(MKTAG('E','N','C','D'), roomResPtr);
 	if (ptr)
 		_ENCD_offs = ptr - roomResPtr;
-	if (_dumpScripts && _ENCD_offs)
-		dumpResource("entry-", _roomResource, roomResPtr + _ENCD_offs - _resourceHeaderSize, -1);
+	if (_dumpScripts && _ENCD_offs) {
+		char buf[32];
+		sprintf(buf, "room-%d-encd-", _roomResource);
+		dumpResource(buf, _roomResource, roomResPtr + _ENCD_offs - _resourceHeaderSize, -1);
+	}
 
 	//
 	// Setup local scripts
@@ -330,7 +336,7 @@ void ScummEngine::setupRoomSubBlocks() {
 
 			if (_dumpScripts) {
 				char buf[32];
-				sprintf(buf, "room-%d-", _roomResource);
+				sprintf(buf, "room-%d-lscr-", _roomResource);
 				dumpResource(buf, id, ptr - _resourceHeaderSize);
 			}
 
@@ -350,7 +356,7 @@ void ScummEngine::setupRoomSubBlocks() {
 
 			if (_dumpScripts) {
 				char buf[32];
-				sprintf(buf, "room-%d-", _roomResource);
+				sprintf(buf, "room-%d-lsc2-", _roomResource);
 				dumpResource(buf, id, ptr - _resourceHeaderSize);
 			}
 		}
@@ -366,7 +372,7 @@ void ScummEngine::setupRoomSubBlocks() {
 
 			if (_dumpScripts) {
 				char buf[32];
-				sprintf(buf, "room-%d-", _roomResource);
+				sprintf(buf, "room-%d-lscr-", _roomResource);
 				dumpResource(buf, id, ptr - _resourceHeaderSize);
 			}
 		}
@@ -393,7 +399,7 @@ void ScummEngine::setupRoomSubBlocks() {
 
 			if (_dumpScripts) {
 				char buf[32];
-				sprintf(buf, "room-%d-", _roomResource);
+				sprintf(buf, "room-%d-lscr-", _roomResource);
 				dumpResource(buf, id, ptr - _resourceHeaderSize);
 			}
 		}
@@ -647,8 +653,11 @@ void ScummEngine_v3old::setupRoomSubBlocks() {
 		_EXCD_offs = READ_LE_UINT16(roomptr + 0x19);
 		EXCD_len = READ_LE_UINT16(roomptr + 0x1B) - _EXCD_offs + _resourceHeaderSize;	// HACK
 	}
-	if (_dumpScripts && _EXCD_offs)
-		dumpResource("exit-", _roomResource, roomptr + _EXCD_offs - _resourceHeaderSize, EXCD_len);
+	if (_dumpScripts && _EXCD_offs) {
+		char buf[32];
+		sprintf(buf, "room-%d-excd-", _roomResource);
+		dumpResource(buf, _roomResource, roomptr + _EXCD_offs - _resourceHeaderSize, EXCD_len);
+	}
 
 	//
 	// Look for an entry script
@@ -667,8 +676,11 @@ void ScummEngine_v3old::setupRoomSubBlocks() {
 		ptr = roomptr + 29 + num_objects * 4 + num_sounds + num_scripts;
 		ENCD_len = READ_LE_UINT16(ptr + 1) - _ENCD_offs + _resourceHeaderSize; // HACK
 	}
-	if (_dumpScripts && _ENCD_offs)
-		dumpResource("entry-", _roomResource, roomptr + _ENCD_offs - _resourceHeaderSize, ENCD_len);
+	if (_dumpScripts && _ENCD_offs) {
+		char buf[32];
+		sprintf(buf, "room-%d-encd-", _roomResource);
+		dumpResource(buf, _roomResource, roomptr + _ENCD_offs - _resourceHeaderSize, ENCD_len);
+	}
 
 	//
 	// Setup local scripts
@@ -703,7 +715,7 @@ void ScummEngine_v3old::setupRoomSubBlocks() {
 
 			if (_dumpScripts) {
 				char buf[32];
-				sprintf(buf, "room-%d-", _roomResource);
+				sprintf(buf, "room-%d-lscr-", _roomResource);
 
 				// HACK: to determine the sizes of the local scripts, we assume that
 				// a) their order in the data file is the same as in the index

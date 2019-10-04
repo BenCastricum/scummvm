@@ -784,7 +784,7 @@ void ScummEngine::resetRoomObjects() {
 
 		if (_dumpScripts) {
 			char buf[32];
-			sprintf(buf, "roomobj-%d-", _roomResource);
+			sprintf(buf, "room-%d-obj-", _roomResource);
 			ptr = findResource(MKTAG('V','E','R','B'), ptr);
 			dumpResource(buf, od->obj_nr, ptr);
 		}
@@ -849,7 +849,7 @@ void ScummEngine_v3old::resetRoomObjects() {
 
 		if (_dumpScripts) {
 			char buf[32];
-			sprintf(buf, "roomobj-%d-", _roomResource);
+			sprintf(buf, "room-%d-obj-", _roomResource);
 			dumpResource(buf, od->obj_nr, room + od->OBCDoffset);
 		}
 	}
@@ -883,7 +883,7 @@ void ScummEngine_v4::resetRoomObjects() {
 		od->obj_nr = READ_LE_UINT16(ptr + 6);
 		if (_dumpScripts) {
 			char buf[32];
-			sprintf(buf, "roomobj-%d-", _roomResource);
+			sprintf(buf, "room-%d-obj-", _roomResource);
 			dumpResource(buf, od->obj_nr, ptr);
 		}
 	}
@@ -1876,7 +1876,7 @@ void ScummEngine::loadFlObject(uint object, uint room) {
 	if (_dumpScripts) {
 		char buf[32];
 		const byte *ptr = foir.obcd;
-		sprintf(buf, "roomobj-%u-", room);
+		sprintf(buf, "room-%d-obj-", room);
 		ptr = findResource(MKTAG('V','E','R','B'), ptr);
 		dumpResource(buf, object, ptr);
 	}
