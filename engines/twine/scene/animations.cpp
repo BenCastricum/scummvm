@@ -542,7 +542,7 @@ void Animations::processActorAnimations(int32 actorIdx) { // DoAnim
 				_engine->_movements->processActorX = actor->x + _engine->_renderer->destX;
 				_engine->_movements->processActorZ = actor->z + _engine->_renderer->destZ;
 
-				_engine->_movements->setActorAngle(ANGLE_0, actor->speed, 50, &actor->move);
+				_engine->_movements->setActorAngle(ANGLE_0, actor->speed, ANGLE_17, &actor->move);
 
 				if (actor->dynamicFlags.bIsSpriteMoving) {
 					if (actor->doorStatus) { // open door
@@ -652,7 +652,7 @@ void Animations::processActorAnimations(int32 actorIdx) { // DoAnim
 				if (numKeyframe == getNumKeyframes(animPtr)) {
 					actor->dynamicFlags.bIsHitting = 0;
 
-					if (actor->animType == 0) {
+					if (actor->animType == kAnimationTypeLoop) {
 						actor->animPosition = getStartKeyframe(animPtr);
 					} else {
 						actor->anim = (AnimationTypes)actor->animExtra;
@@ -665,7 +665,7 @@ void Animations::processActorAnimations(int32 actorIdx) { // DoAnim
 
 						actor->animExtraPtr = currentActorAnimExtraPtr;
 
-						actor->animType = 0;
+						actor->animType = kAnimationTypeLoop;
 						actor->animPosition = 0;
 						actor->strengthOfHit = 0;
 					}

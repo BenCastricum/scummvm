@@ -184,68 +184,65 @@ void Grid::drawOverSpriteActor(int32 x, int32 y, int32 z) {
 	}
 }
 
-int Grid::processGridMask(const uint8 *buffer, uint8 *ptr) {
-	const uint8 *ptrSave = ptr;
-	int32 ebx = READ_UINT32(buffer); // brick flag
-	buffer += 4;
-	WRITE_LE_UINT32(ptr, (uint32)ebx);
-	ptr += 4;
+void Grid::processGridMask(const uint8 *buffer, uint8 *ptr) {
+	const uint8 width = *buffer++;
+	uint8 height = *buffer++;
+	const uint8 offsetX = *buffer++;
+	const uint8 offsetY = *buffer++;
+	const int32 maxY = offsetY + height;
 
-	uint8 bh = (ebx & 0x0000FF00) >> 8;
+	*ptr++ = width;
+	*ptr++ = height;
+	*ptr++ = offsetX;
+	*ptr++ = offsetY;
 
-	const uint8 *esi = (const uint8 *)buffer;
-	uint8 *edi = (uint8 *)ptr;
+	uint8 *targetPtrPos = ptr;
 
-	uint8 iteration = 0;
-
-	do {
+	for (int32 y = offsetY; y < maxY; ++y) {
 		uint8 numOfBlock = 0;
-		uint8 ah = 0;
-		uint8 *ptr2 = edi;
+		uint8 opaquePixels = 0;
+		uint8 *numOfBlockTargetPtr = targetPtrPos;
 
-		edi++;
+		targetPtrPos++;
 
-		uint8 bl = *(esi++);
+		const uint8 numRuns = *buffer++;
 
-		if (*esi & 0xC0) { // the first time isn't skip. the skip size is 0 in that case
-			*edi++ = 0;
+		// the first time isn't skip. the skip size is 0 in that case
+		if (bits(*buffer, 6, 2) != 0) {
+			*targetPtrPos++ = 0;
 			numOfBlock++;
 		}
 
-		do {
-			uint8 al = *esi++;
-			iteration = al;
-			iteration &= 0x3F;
-			iteration++;
-
-			if (al & 0x80) {
-				ah += iteration;
-				esi++;
-			} else if (al & 0x40) {
-				ah += iteration;
-				esi += iteration;
-			} else { // skip
-				if (ah) {
-					*edi++ = ah; // write down the number of pixel passed so far
+		for (uint8 run = 0; run < numRuns; ++run) {
+			const uint8 runSpec = *buffer++;
+			const uint8 runLength = bits(runSpec, 0, 6) + 1;
+			const uint8 type = bits(runSpec, 6, 2);
+			if (type == 2) {
+				opaquePixels += runLength;
+				buffer++;
+			} else if (type == 1) {
+				opaquePixels += runLength;
+				buffer += runLength;
+			} else { // skip (type 3)
+				if (opaquePixels) {
+					*targetPtrPos++ = opaquePixels; // write down the number of pixel passed so far
 					numOfBlock++;
-					ah = 0;
+					opaquePixels = 0;
 				}
-				*(edi++) = iteration; //write skip
+				*targetPtrPos++ = runLength; //write skip
 				numOfBlock++;
 			}
-		} while (--bl > 0);
-
-		if (ah) {
-			*edi++ = ah;
-			numOfBlock++;
-
-			ah = 0;
 		}
 
-		*ptr2 = numOfBlock;
-	} while (--bh > 0);
+		if (opaquePixels) {
+			*targetPtrPos++ = opaquePixels;
+			numOfBlock++;
 
-	return (int)(edi - ptrSave);
+			opaquePixels = 0;
+		}
+
+		*numOfBlockTargetPtr = numOfBlock;
+	}
 }
 
 void Grid::createGridMask() {
@@ -268,7 +265,7 @@ void Grid::getSpriteSize(int32 offset, int32 *width, int32 *height, const uint8 
 	*height = *(spritePtr + 1);
 }
 
-void Grid::loadGridBricks(int32 gridSize) {
+void Grid::loadGridBricks() {
 	uint32 firstBrick = 60000;
 	uint32 lastBrick = 0;
 	uint32 currentBllEntryIdx = 0;
@@ -276,8 +273,8 @@ void Grid::loadGridBricks(int32 gridSize) {
 	memset(brickSizeTable, 0, sizeof(brickSizeTable));
 	memset(brickUsageTable, 0, sizeof(brickUsageTable));
 
-	// get block librarie usage bits
-	const uint8 *ptrToBllBits = currentGrid + (gridSize - 32);
+	// get block libraries usage bits
+	const uint8 *ptrToBllBits = currentGrid + (currentGridSize - 32);
 
 	// for all bits under the 32bytes (256bits)
 	for (uint32 i = 1; i < 256; i++) {
@@ -288,16 +285,17 @@ void Grid::loadGridBricks(int32 gridSize) {
 			uint32 currentBllOffset = READ_LE_UINT32(currentBll + currentBllEntryIdx);
 			const uint8 *currentBllPtr = currentBll + currentBllOffset;
 
-			uint32 bllSizeX = currentBllPtr[0];
-			uint32 bllSizeY = currentBllPtr[1];
-			uint32 bllSizeZ = currentBllPtr[2];
+			uint32 bllSizeX = *currentBllPtr++;
+			uint32 bllSizeY = *currentBllPtr++;
+			uint32 bllSizeZ = *currentBllPtr++;
 
 			uint32 bllSize = bllSizeX * bllSizeY * bllSizeZ;
 
-			const uint8 *bllDataPtr = currentBllPtr + 5;
-
 			for (uint32 j = 0; j < bllSize; j++) {
-				uint32 brickIdx = READ_LE_INT16(bllDataPtr);
+				/* const uint8 type = * */currentBllPtr++;
+				/* const uint8 shape = * */currentBllPtr++;
+				uint32 brickIdx = READ_LE_INT16(currentBllPtr);
+				currentBllPtr += 2;
 
 				if (brickIdx) {
 					brickIdx--;
@@ -312,7 +310,6 @@ void Grid::loadGridBricks(int32 gridSize) {
 
 					brickUsageTable[brickIdx] = 1;
 				}
-				bllDataPtr += 4;
 			}
 		}
 		currentBllEntryIdx += 4;
@@ -398,9 +395,9 @@ void Grid::createGridMap() {
 		for (int32 x = 0; x < GRID_SIZE_X; x++) {
 			const int32 gridOffset = READ_LE_UINT16(currentGrid + 2 * (x + gridIdx));
 			createGridColumn(currentGrid + gridOffset, currentGridSize - gridOffset, blockBuffer + blockOffset, blockBufferSize - blockOffset);
-			blockOffset += 50;
+			blockOffset += 2 * GRID_SIZE_Y;
 		}
-		currOffset += GRID_SIZE_X * 50;
+		currOffset += GRID_SIZE_X * (2 * GRID_SIZE_Y);
 	}
 }
 
@@ -416,10 +413,10 @@ void Grid::createCellingGridMap(const uint8 *gridPtr, int32 gridPtrSize) {
 			const int gridOffset = READ_LE_UINT16(tempGridPtr);
 			tempGridPtr += 2;
 			createCellingGridColumn(gridPtr + gridOffset, gridPtrSize - gridOffset, blockBuffer + blockOffset, blockBufferSize - blockOffset);
-			blockOffset += 50;
+			blockOffset += 2 * GRID_SIZE_Y;
 		}
-		currGridOffset += 128;
-		currOffset += GRID_SIZE_X * 50;
+		currGridOffset += GRID_SIZE_X+ GRID_SIZE_Z;
+		currOffset += GRID_SIZE_X * (2 * GRID_SIZE_Y);
 	}
 }
 
@@ -437,7 +434,7 @@ bool Grid::initGrid(int32 index) {
 		return false;
 	}
 
-	loadGridBricks(currentGridSize);
+	loadGridBricks();
 
 	createGridMask();
 

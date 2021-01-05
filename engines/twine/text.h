@@ -114,6 +114,7 @@ enum class ProgressiveTextState {
 };
 
 class TwinEEngine;
+
 class Text {
 private:
 	TwinEEngine *_engine;
@@ -195,6 +196,7 @@ private:
 	char *_currDialTextPtr = nullptr;
 	/** Current dialogue text size */
 	int32 _currDialTextSize = 0;
+	static const int32 _lineHeight = 38;
 
 	char currMenuTextBuffer[256];
 	int32 currMenuTextBank = TextBankId::None;
@@ -276,6 +278,7 @@ public:
 	void initText(int32 index);
 	void initInventoryText(int index);
 	void initItemFoundText(int index);
+	void fadeInRemainingChars();
 	ProgressiveTextState updateProgressiveText();
 
 	/**

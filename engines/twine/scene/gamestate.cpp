@@ -49,12 +49,10 @@
 
 namespace TwinE {
 
-#define SAVE_DIR "save/"
-
 GameState::GameState(TwinEEngine *engine) : _engine(engine) {
 	Common::fill(&gameFlags[0], &gameFlags[256], 0);
 	Common::fill(&inventoryFlags[0], &inventoryFlags[NUM_INVENTORY_ITEMS], 0);
-	Common::fill(&holomapFlags[0], &holomapFlags[150], 0);
+	Common::fill(&holomapFlags[0], &holomapFlags[NUM_LOCATIONS], 0);
 	playerName[0] = '\0';
 	Common::fill(&gameChoices[0], &gameChoices[10], 0);
 }
@@ -364,6 +362,8 @@ void GameState::processFoundItem(int32 item) {
 		if (textState == ProgressiveTextState::ContinueRunning) {
 			_engine->_interface->resetClip();
 			textState = _engine->_text->updateProgressiveText();
+		} else {
+			_engine->_text->fadeInRemainingChars();
 		}
 
 		_engine->_redraw->flipRedrawAreas();
@@ -383,6 +383,8 @@ void GameState::processFoundItem(int32 item) {
 				textState = ProgressiveTextState::ContinueRunning;
 			}
 		}
+
+		_engine->_text->playVoxSimple(_engine->_text->currDialTextEntry);
 
 		_engine->lbaTime++;
 	}

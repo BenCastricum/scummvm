@@ -520,6 +520,14 @@ int32 Text::getCharHeight(uint8 chr) const {
 	return stream.readByte();
 }
 
+void Text::fadeInRemainingChars() {
+	if (_fadeInCharactersPos <= 0) {
+		return;
+	}
+	fadeInCharacters(_fadeInCharactersPos, _dialTextStopColor);
+	--_fadeInCharactersPos;
+}
+
 ProgressiveTextState Text::updateProgressiveText() {
 	if (!_hasValidTextHandle) {
 		return ProgressiveTextState::End;
@@ -561,11 +569,10 @@ ProgressiveTextState Text::updateProgressiveText() {
 	// reached a new line that is about get faded in
 	_dialTextBoxCurrentLine++;
 
-	const int32 lineHeight = 38;
-	_dialTextYPos += lineHeight;
+	_dialTextYPos += _lineHeight;
 	_dialTextXPos = _dialTextBox.left + 8;
 
-	if (_dialTextBoxCurrentLine > _dialTextBoxLines) {
+	if (_dialTextBoxCurrentLine >= _dialTextBoxLines) {
 		renderContinueReadingTriangle();
 		return ProgressiveTextState::NextPage;
 	}
@@ -588,12 +595,15 @@ bool Text::displayText(int32 index, bool showText, bool playVox) {
 		initText(index);
 		initDialogueBox();
 
+		ScopedKeyMap uiKeyMap(_engine, uiKeyMapId);
 		ProgressiveTextState textState = ProgressiveTextState::ContinueRunning;
 		for (;;) {
 			ScopedFPS scopedFps(66);
 			_engine->readKeys();
 			if (textState == ProgressiveTextState::ContinueRunning) {
 				textState = updateProgressiveText();
+			} else {
+				fadeInRemainingChars();
 			}
 			if (_engine->_input->toggleActionIfActive(TwinEActionType::UINextPage)) {
 				if (textState == ProgressiveTextState::End) {
@@ -609,9 +619,11 @@ bool Text::displayText(int32 index, bool showText, bool playVox) {
 				aborted = true;
 				break;
 			}
+
+			_engine->_text->playVoxSimple(_engine->_text->currDialTextEntry);
 		}
 	}
-	while (_engine->_sound->isSamplePlaying(currDialTextEntry)) {
+	while (_engine->_text->playVoxSimple(_engine->_text->currDialTextEntry)) {
 		ScopedFPS scopedFps;
 		_engine->readKeys();
 		if (_engine->shouldQuit() || _engine->_input->toggleAbortAction()) {
@@ -724,25 +736,29 @@ bool Text::getMenuText(int32 index, char *text, uint32 textSize) {
 }
 
 void Text::textClipFull() {
-	const int padding = 9;
-	_dialTextBox.left = padding - 1;
-	_dialTextBox.top = padding - 1;
-	_dialTextBox.right = SCREEN_WIDTH - padding;
-	_dialTextBox.bottom = SCREEN_HEIGHT - padding;
+	const int32 margin = 8;
+	const int32 padding = 8;
+	_dialTextBox.left = margin;
+	_dialTextBox.top = margin;
+	_dialTextBox.right = SCREEN_WIDTH - margin;
+	_dialTextBox.bottom = SCREEN_HEIGHT - margin;
 
-	_dialTextBoxLines = 11;
-	_dialTextBoxMaxX = SCREEN_WIDTH - 33;
+	_dialTextBoxLines = (int32)(_dialTextBox.height() / _lineHeight) - 1;
+	_dialTextBoxMaxX = SCREEN_WIDTH - 2 * margin - 2 * padding;
 }
 
 void Text::textClipSmall() {
-	const int padding = 17;
-	_dialTextBox.left = padding - 1;
-	_dialTextBox.top = SCREEN_HEIGHT - 146;
-	_dialTextBox.right = SCREEN_WIDTH - padding;
-	_dialTextBox.bottom = SCREEN_HEIGHT - padding;
-
+	const int32 margin = 16;
+	const int32 padding = 8;
 	_dialTextBoxLines = 3;
-	_dialTextBoxMaxX = SCREEN_WIDTH - 49;
+	const int32 textHeight = _dialTextBoxLines * _lineHeight;
+
+	_dialTextBox.left = margin;
+	_dialTextBox.top = SCREEN_HEIGHT - textHeight - margin - padding;
+	_dialTextBox.right = SCREEN_WIDTH - margin;
+	_dialTextBox.bottom = SCREEN_HEIGHT - margin;
+
+	_dialTextBoxMaxX = SCREEN_WIDTH - 2 * margin + 2 * padding;
 }
 
 void Text::drawAskQuestion(int32 index) {

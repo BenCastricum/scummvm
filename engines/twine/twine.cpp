@@ -140,14 +140,6 @@ TwinEEngine::TwinEEngine(OSystem *system, Common::Language language, uint32 flag
 	_input = new Input(this);
 	_debug = new Debug(this);
 	_debugScene = new DebugScene(this);
-
-	if (_gameFlags & TwineFeatureFlags::TF_VERSION_EUROPE) {
-		cfgfile.Version = EUROPE_VERSION;
-	} else if (_gameFlags & TwineFeatureFlags::TF_VERSION_USA) {
-		cfgfile.Version = USA_VERSION;
-	} else if (_gameFlags & TwineFeatureFlags::TF_VERSION_CUSTOM) {
-		cfgfile.Version = MODIFICATION_VERSION;
-	}
 }
 
 TwinEEngine::~TwinEEngine() {
@@ -198,11 +190,11 @@ void TwinEEngine::popMouseCursorVisible() {
 
 Common::Error TwinEEngine::run() {
 	debug("Based on TwinEngine v0.2.2");
-	debug("(c)2002 The TwinEngine team.");
-	debug("(c)2020 The ScummVM team.");
+	debug("(c) 2002 The TwinEngine team.");
+	debug("(c) 2020, 2021 The ScummVM team.");
 	debug("Refer to the credits for further details.");
 	debug("The original Little Big Adventure game is:");
-	debug("(c)1994 by Adeline Software International, All Rights Reserved.");
+	debug("(c) 1994 by Adeline Software International, All Rights Reserved.");
 
 	syncSoundSettings();
 	initGraphics(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -255,10 +247,10 @@ Common::Error TwinEEngine::run() {
 		}
 	}
 
-	ConfMan.setInt("CombatAuto", _actor->autoAgressive ? 1 : 0);
-	ConfMan.setInt("Shadow", cfgfile.ShadowMode);
-	ConfMan.setInt("SceZoom", cfgfile.SceZoom ? 1 : 0);
-	ConfMan.setInt("PolygonDetails", cfgfile.PolygonDetails);
+	ConfMan.setInt("combatauto", _actor->autoAgressive ? 1 : 0);
+	ConfMan.setInt("shadow", cfgfile.ShadowMode);
+	ConfMan.setInt("scezoom", cfgfile.SceZoom ? 1 : 0);
+	ConfMan.setInt("polygondetails", cfgfile.PolygonDetails);
 
 	_sound->stopSamples();
 	_music->stopTrackMusic();
@@ -369,10 +361,21 @@ void TwinEEngine::initConfigurations() {
 			debug("Could not find midi hqr file");
 		}
 	}
-	cfgfile.Version = ConfGetIntOrDefault("version", EUROPE_VERSION);
+
+	if (_gameFlags & TwineFeatureFlags::TF_VERSION_EUROPE) {
+		cfgfile.Version = EUROPE_VERSION;
+	} else if (_gameFlags & TwineFeatureFlags::TF_VERSION_USA) {
+		cfgfile.Version = USA_VERSION;
+	} else if (_gameFlags & TwineFeatureFlags::TF_VERSION_CUSTOM) {
+		cfgfile.Version = MODIFICATION_VERSION;
+	}
+
+	if (_gameFlags & TwineFeatureFlags::TF_USE_GIF) {
+		cfgfile.Movie = CONF_MOVIE_FLAGIF;
+	}
+
 	cfgfile.UseCD = ConfGetBoolOrDefault("usecd", false);
 	cfgfile.Sound = ConfGetBoolOrDefault("sound", true);
-	cfgfile.Movie = ConfGetIntOrDefault("movie", CONF_MOVIE_FLA);
 	cfgfile.Fps = ConfGetIntOrDefault("fps", DEFAULT_FRAMES_PER_SECOND);
 	cfgfile.Debug = ConfGetBoolOrDefault("debug", false);
 	cfgfile.Mouse = ConfGetIntOrDefault("mouse", true);
@@ -788,7 +791,7 @@ int32 TwinEEngine::runGameEngine() { // mainLoopInteration
 		loopActorStep = 1;
 	}
 
-	_movements->setActorAngle(ANGLE_0, -ANGLE_90, 5, &loopMovePtr);
+	_movements->setActorAngle(ANGLE_0, -ANGLE_90, ANGLE_1, &loopMovePtr);
 	disableScreenRecenter = false;
 
 	_scene->processEnvironmentSound();
@@ -959,7 +962,7 @@ int32 TwinEEngine::runGameEngine() { // mainLoopInteration
 bool TwinEEngine::gameEngineLoop() {
 	_redraw->reqBgRedraw = true;
 	_screens->lockPalette = true;
-	_movements->setActorAngle(ANGLE_0, -ANGLE_90, 5, &loopMovePtr);
+	_movements->setActorAngle(ANGLE_0, -ANGLE_90, ANGLE_1, &loopMovePtr);
 
 	while (quitGame == -1) {
 		uint32 start = g_system->getMillis();

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ScummVM 2.3.0git\n"
 "Report-Msgid-Bugs-To: scummvm-devel@lists.scummvm.org\n"
-"POT-Creation-Date: 2020-12-29 23:24+0000\n"
-"PO-Revision-Date: 2020-12-29 16:23+0000\n"
+"POT-Creation-Date: 2021-01-01 06:12+0000\n"
+"PO-Revision-Date: 2021-01-03 21:23+0000\n"
 "Last-Translator: VAN-Gluon <masuda20100701@gmail.com>\n"
 "Language-Team: Japanese <https://translations.scummvm.org/projects/scummvm/"
 "scummvm/ja/>\n"
@@ -592,8 +592,8 @@ msgstr "閉じる"
 #: backends/platform/symbian/src/SymbianActions.cpp:40
 #: engines/dragons/metaengine.cpp:163 engines/glk/scott/scott.cpp:412
 #: engines/griffon/metaengine.cpp:96 engines/grim/grim.cpp:451
-#: engines/grim/grim.cpp:528 engines/twine/metaengine.cpp:373
-#: engines/twine/metaengine.cpp:433 engines/wintermute/keymapper_tables.h:1011
+#: engines/grim/grim.cpp:528 engines/twine/metaengine.cpp:398
+#: engines/twine/metaengine.cpp:468 engines/wintermute/keymapper_tables.h:1011
 #: engines/wintermute/keymapper_tables.h:1100
 #: engines/wintermute/keymapper_tables.h:1474
 #: engines/wintermute/keymapper_tables.h:1704
@@ -604,8 +604,8 @@ msgstr "上"
 #: backends/platform/symbian/src/SymbianActions.cpp:41
 #: engines/dragons/metaengine.cpp:169 engines/glk/scott/scott.cpp:412
 #: engines/griffon/metaengine.cpp:102 engines/grim/grim.cpp:456
-#: engines/grim/grim.cpp:533 engines/twine/metaengine.cpp:379
-#: engines/twine/metaengine.cpp:440 engines/wintermute/keymapper_tables.h:1017
+#: engines/grim/grim.cpp:533 engines/twine/metaengine.cpp:405
+#: engines/twine/metaengine.cpp:476 engines/wintermute/keymapper_tables.h:1017
 #: engines/wintermute/keymapper_tables.h:1107
 #: engines/wintermute/keymapper_tables.h:1480
 #: engines/wintermute/keymapper_tables.h:1710
@@ -616,7 +616,7 @@ msgstr "下"
 #: backends/platform/symbian/src/SymbianActions.cpp:42
 #: engines/dragons/metaengine.cpp:175 engines/griffon/metaengine.cpp:108
 #: engines/grim/grim.cpp:461 engines/grim/grim.cpp:538
-#: engines/twine/metaengine.cpp:392 engines/twine/metaengine.cpp:453
+#: engines/twine/metaengine.cpp:420 engines/twine/metaengine.cpp:491
 #: engines/wintermute/keymapper_tables.h:1023
 #: engines/wintermute/keymapper_tables.h:1462
 #: engines/wintermute/keymapper_tables.h:1570
@@ -628,7 +628,7 @@ msgstr "左"
 #: backends/platform/symbian/src/SymbianActions.cpp:43
 #: engines/dragons/metaengine.cpp:181 engines/griffon/metaengine.cpp:114
 #: engines/grim/grim.cpp:466 engines/grim/grim.cpp:543
-#: engines/twine/metaengine.cpp:385 engines/twine/metaengine.cpp:447
+#: engines/twine/metaengine.cpp:412 engines/twine/metaengine.cpp:484
 #: engines/wintermute/keymapper_tables.h:1029
 #: engines/wintermute/keymapper_tables.h:1468
 #: engines/wintermute/keymapper_tables.h:1578
@@ -1571,6 +1571,7 @@ msgstr "使用するサーバーのポート番号"
 msgctxt "lowres"
 msgid "Run server to manage files with browser (in the same network)."
 msgstr ""
+"サーバーを起動し、ファイルをブラウザーで管理します(同一ネットワーク内のみ)。"
 
 #: gui/options.cpp:2276
 msgctxt "lowres"
@@ -1580,6 +1581,7 @@ msgstr "設定ウィンドウを閉じると、サーバーは停止されます
 #: gui/options.cpp:2278
 msgid "Run server to manage files with browser (in the same network)."
 msgstr ""
+"サーバーを起動し、ファイルをブラウザーで管理します(同一ネットワーク内のみ)。"
 
 #: gui/options.cpp:2279
 msgid "Closing options dialog will stop the server."
@@ -1648,6 +1650,8 @@ msgid ""
 "Failed to open URL!\n"
 "Please navigate to this page manually."
 msgstr ""
+"URLを開けませんでした!\n"
+"このページに手動で遷移してください。"
 
 #: gui/options.cpp:2716
 msgid "Another Storage is working now. Do you want to interrupt it?"
@@ -1890,16 +1894,16 @@ msgstr "ゲームを報告する"
 msgid ""
 "Use the button below to copy the required game information into your "
 "clipboard."
-msgstr ""
+msgstr "ボタンを押して、必要なゲーム情報をクリップボードにコピーしてください。"
 
 #: gui/unknown-game-dialog.cpp:106
 msgid "You can also directly report your game to the Bug Tracker."
-msgstr ""
+msgstr "バグを開発チームに直接報告する事もできます。"
 
 #: gui/unknown-game-dialog.cpp:156
 msgid ""
 "All necessary information about your game has been copied into the clipboard"
-msgstr ""
+msgstr "必要な情報がクリップボードにコピーされました"
 
 #: gui/unknown-game-dialog.cpp:158
 msgid "Copying the game information to the clipboard has failed!"
@@ -1920,6 +1924,8 @@ msgid ""
 "You can change this setting later in the Misc tab\n"
 "in the Options dialog."
 msgstr ""
+"設定は、後から「オプション」→「その他」で\n"
+"変更可能です。"
 
 #: gui/updates-dialog.cpp:116
 msgid "Proceed"
@@ -2050,7 +2056,7 @@ msgstr "毎月"
 
 #: common/updates.cpp:64
 msgid "<Bad value>"
-msgstr ""
+msgstr "<不正な値>"
 
 #: engines/advancedDetector.cpp:213
 msgid "Illegitimate game copy detected. We provide no support in such cases"
@@ -2078,7 +2084,7 @@ msgstr "ヘルプ(~H~)"
 
 #: engines/dialogs.cpp:90
 msgid "~A~bout"
-msgstr ""
+msgstr "情報(~A~)"
 
 #: engines/dialogs.cpp:93 engines/dialogs.cpp:169
 msgid "~R~eturn to Launcher"
@@ -2133,13 +2139,15 @@ msgid ""
 "the README for basic information, and for instructions on how to obtain "
 "further assistance."
 msgstr ""
+"申し訳ありませんが、現在このエンジンではゲーム内ヘルプを提供していません。詳"
+"細はREADMEを参照してください。"
 
 #: engines/dialogs.cpp:217 engines/pegasus/pegasus.cpp:385
 #, c-format
 msgid ""
 "Failed to save game (%s)! Please consult the README for basic information, "
 "and for instructions on how to obtain further assistance."
-msgstr ""
+msgstr "ゲーム%sのセーブに失敗しました! 詳細はREADMEを参照してください。"
 
 #: engines/dialogs.cpp:359
 msgid "~O~K"
@@ -2170,7 +2178,7 @@ msgstr "映像モード'%s'に切り替えられませんでした。"
 #: engines/engine.cpp:345
 #, c-format
 msgid "Could not switch to stretch mode '%s'."
-msgstr ""
+msgstr "ストレッチモード'%s'に切り替えられませんでした。"
 
 #: engines/engine.cpp:352
 msgid "Could not apply aspect ratio setting."
@@ -2196,6 +2204,11 @@ msgid ""
 "the data files to your hard disk instead.\n"
 "See the README file for details."
 msgstr ""
+"ゲームをCDから直接プレイしていますが\n"
+"これは問題を起こす事が知られています。\n"
+"代わりに、HDDへデータをコピーして\n"
+"実行する事をおすすめします。\n"
+"詳細はREADMEを参照してください。"
 
 #: engines/engine.cpp:518
 msgid ""
@@ -2205,6 +2218,11 @@ msgid ""
 "order to listen to the game's music.\n"
 "See the README file for details."
 msgstr ""
+"このゲームは、ディスクにオーディオトラックが\n"
+"存在します。これらのトラックは、ゲームで使用\n"
+"するために適切なツールでディスクから抽出する\n"
+"必要があります。\n"
+"詳細はREADMEを参照してください。"
 
 #: engines/engine.cpp:548 engines/metaengine.cpp:327 engines/savestate.cpp:81
 #: backends/platform/ios7/ios7_osys_main.cpp:277 engines/sky/metaengine.cpp:176
@@ -2221,7 +2239,7 @@ msgstr "オートセーブ中にエラーが発生しました"
 msgid ""
 "Failed to load saved game (%s)! Please consult the README for basic "
 "information, and for instructions on how to obtain further assistance."
-msgstr ""
+msgstr "セーブ%sのロードに失敗しました! 詳細はREADMEを参照してください。"
 
 #: engines/engine.cpp:649
 msgid ""
@@ -2229,6 +2247,8 @@ msgid ""
 "ScummVM. As such, it is likely to be unstable, and any saved game you make "
 "might not work in future versions of ScummVM."
 msgstr ""
+"警告：このゲームはまだ完全なサポートがなされていません。動作が安定せず、また"
+"将来的にセーブデータの互換性が失われる可能性があります。"
 
 #: engines/engine.cpp:652 engines/wintermute/wintermute.cpp:210
 msgid "Start anyway"
@@ -2269,7 +2289,7 @@ msgstr ""
 #: engines/game.cpp:175
 #, c-format
 msgid "Matched game IDs for the %s engine:"
-msgstr ""
+msgstr "エンジン%sにマッチしたゲームID："
 
 #: engines/metaengine.cpp:55
 msgid "Default game keymap"
@@ -2299,7 +2319,7 @@ msgstr "右クリック"
 #: backends/platform/symbian/src/SymbianActions.cpp:52
 #: engines/hdb/metaengine.cpp:238 engines/mohawk/myst.cpp:593
 #: engines/mohawk/riven.cpp:863 engines/sky/metaengine.cpp:113
-#: engines/twine/metaengine.cpp:167 engines/wintermute/keymapper_tables.h:1255
+#: engines/twine/metaengine.cpp:178 engines/wintermute/keymapper_tables.h:1255
 msgid "Pause"
 msgstr "一時停止"
 
@@ -2612,7 +2632,7 @@ msgstr "終了してもよろしいですか？"
 
 #: backends/graphics/opengl/opengl-graphics.cpp:244
 #: backends/graphics/surfacesdl/surfacesdl-graphics.cpp:83
-#: engines/twine/metaengine.cpp:285
+#: engines/twine/metaengine.cpp:297
 msgid "Center"
 msgstr "中央"
 
@@ -2722,7 +2742,7 @@ msgstr "線形フィルターによる画像を拡大する"
 
 #: backends/graphics/sdl/sdl-graphics.cpp:410
 msgid "Cycle through stretch modes"
-msgstr ""
+msgstr "ストレッチモードを繰り返し切り替える"
 
 #: backends/graphics/sdl/sdl-graphics.cpp:416
 msgid "Increase the scale factor"
@@ -2959,7 +2979,7 @@ msgstr "指定されたパスはディレクトリーではありません!"
 #: backends/networking/sdl_net/handlers/createdirectoryhandler.cpp:98
 #: backends/networking/sdl_net/uploadfileclienthandler.cpp:141
 msgid "There is a file with that name in the parent directory!"
-msgstr ""
+msgstr "ひとつ上のディレクトリーに、指定された名前のファイルが存在します!"
 
 #: backends/networking/sdl_net/handlers/createdirectoryhandler.cpp:104
 msgid "Failed to create the directory!"
@@ -4203,7 +4223,7 @@ msgstr ""
 #: engines/grim/grim.cpp:491 engines/grim/grim.cpp:583
 #: engines/hdb/metaengine.cpp:231 engines/scumm/help.cpp:225
 #: engines/scumm/help.cpp:234 engines/scumm/help.cpp:241
-#: engines/scumm/help.cpp:249 engines/twine/metaengine.cpp:337
+#: engines/scumm/help.cpp:249 engines/twine/metaengine.cpp:355
 #: engines/zvision/metaengine.cpp:164
 msgid "Inventory"
 msgstr "インベントリ"
@@ -4676,6 +4696,10 @@ msgid ""
 "Go to https://wiki.scummvm.org/index.php/Datafiles to see a list of the "
 "needed files."
 msgstr ""
+"ファイル%sをチェックしようとしましたが、開けませんでした。\n"
+"見つからないか、必要な権限が無い可能性があります。\n"
+"https://wiki.scummvm.org/index.php/Datafilesを参照して、必要なファイルを確認"
+"してください。"
 
 #: engines/grim/md5checkdialog.cpp:42
 msgid ""
@@ -4684,6 +4708,9 @@ msgid ""
 "This may take a while, please wait.\n"
 "Successive runs will not check them again."
 msgstr ""
+"ScummVMは、ゲームのデータファイルを検証して最適な状態を提供します。\n"
+"この処理には時間がかかる事があります、お待ちください。\n"
+"連続で実行しても、再チェックはされません。"
 
 #: engines/grim/metaengine.cpp:63
 #, fuzzy
@@ -4697,6 +4724,10 @@ msgid ""
 "https://scummvm.org/frs/extras/patches/gfupd101.exe\n"
 "and put it in the game data files directory"
 msgstr ""
+"Grim Fandangoのオリジナルパッチが存在しません。\n"
+"以下のページからダウンロードし\n"
+"ゲームが存在するディレクトリーに配置してください。\n"
+"https://scummvm.org/frs/extras/patches/gfupd101.exe"
 
 #: engines/grim/resource.cpp:105
 msgid ""
@@ -4706,6 +4737,11 @@ msgid ""
 "Pay attention to download the correct version according to the game's "
 "language"
 msgstr ""
+"Escape from Monkey Islandのオリジナルパッチが存在しません。\n"
+"以下のページからダウンロードし、ゲームが存在するディレクトリーに配置してくだ"
+"さい\n"
+"(ゲームの言語に応じて、正しいバージョンをダウンロードしてください)。\n"
+"https://scummvm.org/frs/extras/patches/"
 
 #: engines/grim/emi/sound/emisound.cpp:650
 msgid ""
@@ -4718,6 +4754,14 @@ msgid ""
 "\n"
 "Alternatively, a Steam or GOG copy has a combined FullMonkeyMap.imt"
 msgstr ""
+"エラー：必要な音声ファイルが見つかりません!\n"
+"Escape from Monkey IslandのFullMonkeyMap.imtは2種類存在するので\n"
+"それぞれリネームし、Texturesフォルダーにコピーしてください。\n"
+"リネーム後のファイル名は、以下の通りです。\n"
+"ディスク1:\"FullMonkeyMap1.imt\"\n"
+"ディスク2:\"FullMonkeyMap2.imt\"\n"
+"\n"
+"もしくは、SteamかGOG版から結合されたFullMonkeyMap.imtを取得してください"
 
 #: engines/groovie/detection.cpp:297
 msgid "Fast movie speed"
@@ -4744,7 +4788,7 @@ msgstr "マウス操作を有効にする"
 
 #: engines/hdb/detection.cpp:125
 msgid "Debug info and level selection becomes available"
-msgstr ""
+msgstr "デバッグ情報とレベル選択を利用可能にする"
 
 #: engines/hdb/metaengine.cpp:193
 msgid "Move up"
@@ -4761,7 +4805,7 @@ msgstr "下"
 #: engines/sky/metaengine.cpp:82 engines/wintermute/keymapper_tables.h:138
 #: engines/wintermute/keymapper_tables.h:1202
 msgid "Use"
-msgstr ""
+msgstr "使用"
 
 #: engines/hdb/metaengine.cpp:224
 msgid "Clear waypoints"
@@ -4769,7 +4813,7 @@ msgstr ""
 
 #: engines/hdb/metaengine.cpp:250
 msgid "Debug"
-msgstr ""
+msgstr "デバッグ"
 
 #: engines/hopkins/detection.cpp:40 engines/hopkins/detection.cpp:50
 msgid "Gore Mode"
@@ -4845,11 +4889,11 @@ msgstr ""
 #. I18N: HP stands for Hit Points
 #: engines/kyra/detection.cpp:119
 msgid "HP bar graphs"
-msgstr ""
+msgstr "HPバーを表示"
 
 #: engines/kyra/detection.cpp:120
 msgid "Enable hit point bar graphs"
-msgstr ""
+msgstr "HPバーの表示を有効にする"
 
 #. I18N: L/R stands for Left/Right
 #: engines/kyra/detection.cpp:130
@@ -4878,20 +4922,20 @@ msgstr "含まれた機能："
 
 #: engines/kyra/engine/eobcommon.cpp:367 engines/kyra/engine/lol.cpp:469
 #: engines/ultima/ultima4/meta_engine.cpp:233
-#: engines/ultima/ultima8/meta_engine.cpp:136
+#: engines/ultima/ultima8/meta_engine.cpp:139
 #, fuzzy
 msgid "Interact via Left Click"
 msgstr "左クリック"
 
 #: engines/kyra/engine/eobcommon.cpp:368 engines/kyra/engine/lol.cpp:470
 #: engines/ultima/ultima4/meta_engine.cpp:239
-#: engines/ultima/ultima8/meta_engine.cpp:142
+#: engines/ultima/ultima8/meta_engine.cpp:145
 #, fuzzy
 msgid "Interact via Right Click"
 msgstr "右クリック"
 
 #: engines/kyra/engine/eobcommon.cpp:369 engines/kyra/engine/lol.cpp:475
-#: engines/twine/metaengine.cpp:303
+#: engines/twine/metaengine.cpp:317
 msgid "Move Forward"
 msgstr "前に進む"
 
@@ -4908,13 +4952,13 @@ msgid "Move Right"
 msgstr "右に行く"
 
 #: engines/kyra/engine/eobcommon.cpp:373 engines/kyra/engine/lol.cpp:479
-#: engines/pegasus/pegasus.cpp:2497 engines/twine/metaengine.cpp:321
+#: engines/pegasus/pegasus.cpp:2497 engines/twine/metaengine.cpp:338
 #: engines/zvision/metaengine.cpp:141
 msgid "Turn Left"
 msgstr "左に曲がる"
 
 #: engines/kyra/engine/eobcommon.cpp:374 engines/kyra/engine/lol.cpp:480
-#: engines/pegasus/pegasus.cpp:2504 engines/twine/metaengine.cpp:315
+#: engines/pegasus/pegasus.cpp:2504 engines/twine/metaengine.cpp:331
 #: engines/zvision/metaengine.cpp:147
 msgid "Turn Right"
 msgstr "右に曲がる"
@@ -6445,19 +6489,19 @@ msgstr "右に行く"
 msgid "Fly to lower right"
 msgstr "右へ降下"
 
-#: engines/scumm/input.cpp:574
+#: engines/scumm/input.cpp:575
 msgid "Snap scroll on"
 msgstr "スナップスクロールをオン"
 
-#: engines/scumm/input.cpp:576
+#: engines/scumm/input.cpp:577
 msgid "Snap scroll off"
 msgstr "スナップスクロールをオフ"
 
-#: engines/scumm/input.cpp:589
+#: engines/scumm/input.cpp:590
 msgid "Music volume: "
 msgstr "音楽の音量： "
 
-#: engines/scumm/input.cpp:606
+#: engines/scumm/input.cpp:607
 msgid "Subtitle speed: "
 msgstr "字幕の速度： "
 
@@ -6533,21 +6577,21 @@ msgstr ""
 
 #: engines/sherlock/detection.cpp:70
 msgid "Don't show hotspots when moving mouse"
-msgstr ""
+msgstr "マウスを動かしている間はホットスポットが表示されません"
 
 #: engines/sherlock/detection.cpp:71
 msgid ""
 "Only show hotspot names after you actually click on a hotspot or action "
 "button"
-msgstr ""
+msgstr "ホットスポット、もしくはボタンを押した場合のみ表示されます"
 
 #: engines/sherlock/detection.cpp:80
 msgid "Show character portraits"
-msgstr ""
+msgstr "キャラクターのポートレートを表示する"
 
 #: engines/sherlock/detection.cpp:81
 msgid "Show portraits for the characters when conversing"
-msgstr ""
+msgstr "キャラクターのポートレートを表示する(会話中のみ)"
 
 #: engines/sherlock/detection.cpp:90
 msgid "Slide dialogs into view"
@@ -6624,10 +6668,12 @@ msgstr "3Dアンチエイリアス："
 #: engines/stark/detection.cpp:341
 msgid "When font anti-aliasing is enabled, the text is smoother."
 msgstr ""
+"フォントにアンチエイリアスが有効である場合、テキストはより滑らかに表示されま"
+"す。"
 
 #: engines/stark/stark.cpp:291
 msgid "You are missing recommended data files:"
-msgstr ""
+msgstr "推奨されたデータファイルが見つかりません："
 
 #: engines/stark/stark.cpp:305
 msgid ""
@@ -6635,25 +6681,28 @@ msgid ""
 "designed. The Steam release is known to be missing it. You can get the fonts "
 "from the demo version of the game."
 msgstr ""
+"テキストスタイルを使用するには、fontsフォルダーが必要です。これはSteam版に存"
+"在しません。デモ版から取得してください。"
 
 #: engines/stark/stark.cpp:312
 msgid ""
 "'gui.ini' is recommended to get proper font settings for the game "
 "localization."
-msgstr ""
+msgstr "ローカライズ用に適切なフォントを設定する場合、gui.iniが必要です。"
 
 #: engines/stark/stark.cpp:318
 msgid "'language.ini' is recommended to get localized confirmation dialogs."
 msgstr ""
+"ローカライズされた確認ダイアログを使用するには、language.iniが必要です。"
 
 #: engines/stark/stark.cpp:324
 msgid "'game.exe' is recommended to get styled confirmation dialogs."
-msgstr ""
+msgstr "スタイルが適用された確認ダイアログを使用するには、game.exeが必要です。"
 
 #: engines/supernova/supernova.cpp:187
 #, c-format
 msgid "Unable to locate the text for %s language in engine data file."
-msgstr ""
+msgstr "%s語用のテキストがエンジンデータファイル内に存在しません。"
 
 #: engines/supernova/supernova.cpp:470
 #, c-format
@@ -6678,14 +6727,12 @@ msgid ""
 msgstr ""
 
 #: engines/supernova/supernova.cpp:828
-#, fuzzy
 msgid "Failed to load temporary game state."
-msgstr "ストレージの接続に失敗しました。"
+msgstr "一時保存データのロードに失敗しました。"
 
 #: engines/supernova/detection.cpp:35
-#, fuzzy
 msgid "Improved mode"
-msgstr "ウインドーモード"
+msgstr "改善モード"
 
 #: engines/supernova/detection.cpp:36
 msgid ""
@@ -6695,21 +6742,22 @@ msgstr ""
 #: engines/sword1/animation.cpp:532
 #, c-format
 msgid "PSX stream cutscene '%s' cannot be played in paletted mode"
-msgstr ""
+msgstr "PSXストリーム形式のムービー'%s'は、パレットモードで再生できません"
 
 #: engines/sword1/animation.cpp:553 engines/sword2/animation.cpp:449
 msgid "DXA cutscenes found but ScummVM has been built without zlib"
-msgstr ""
+msgstr "DXA形式のムービーが見つかりましたが、ScummVMはzlibを同梱していません"
 
 #: engines/sword1/animation.cpp:569 engines/sword2/animation.cpp:465
 msgid ""
 "MPEG-2 cutscenes found but ScummVM has been built without MPEG-2 support"
 msgstr ""
+"MPEG-2形式のムービーが見つかりましたが、ScummVMはMPEG-2をサポートしていません"
 
 #: engines/sword1/animation.cpp:576 engines/sword2/animation.cpp:474
 #, c-format
 msgid "Cutscene '%s' not found"
-msgstr ""
+msgstr "ムービー'%s'が見つかりませんでした"
 
 #: engines/sword1/control.cpp:887
 msgid ""
@@ -6755,20 +6803,21 @@ msgid "Show labels for objects on mouse hover"
 msgstr ""
 
 #: engines/sword25/detection.cpp:41
-#, fuzzy
 msgid "Use English speech"
-msgstr "テキストの読み上げ機能を使用する"
+msgstr "テキストを英語で読み上げる"
 
 #: engines/sword25/detection.cpp:42
 msgid ""
 "Use English speech instead of German for every language other than German"
-msgstr ""
+msgstr "他国語版も英語で読み上げる(ドイツ語版を除く)"
 
 #: engines/teenagent/resources.cpp:121
 msgid ""
 "The teenagent.dat file is compressed and zlib hasn't been included in this "
 "executable. Please decompress it"
 msgstr ""
+"teenagent.datは圧縮されていますが、zlibは実行可能なファイルに含まれません。解"
+"凍してください"
 
 #: engines/tinsel/detection_tables.h:466
 msgid "Saturn CD version is not yet supported"
@@ -6777,32 +6826,32 @@ msgstr "セガサターン版はまだサポートされていません"
 #: engines/tony/tony.cpp:257
 #, c-format
 msgid "Font variant not present in '%s' engine data file."
-msgstr ""
+msgstr "異なるフォントはエンジンデータファイル'%s'に存在しません。"
 
 #: engines/toon/toon.cpp:225
 #, c-format
 msgid "Saved game in slot #%d "
-msgstr ""
+msgstr "スロット#%dにセーブしました "
 
 #: engines/toon/toon.cpp:229
 #, c-format
 msgid "Could not quick save into slot #%d"
-msgstr ""
+msgstr "スロット#%dにクイックセーブできませんでした"
 
 #: engines/toon/toon.cpp:242
 #, c-format
 msgid "Saved game #%d quick loaded"
-msgstr ""
+msgstr "スロット#%dからクイックロードしました"
 
 #: engines/toon/toon.cpp:246
 #, c-format
 msgid "Could not quick load the saved game #%d"
-msgstr "保存されたゲーム#%dのクイックセーブがロードできませんでした"
+msgstr "スロット#%dからクイックロードできませんでした"
 
 #: engines/toon/toon.cpp:1528
 #, c-format
 msgid "Unable to locate the '%s' data file."
-msgstr ""
+msgstr "データファイル'%s'の場所が特定できません。"
 
 #: engines/tsage/detection_tables.h:150
 msgid "Spanish CD version is not yet supported"
@@ -6810,11 +6859,11 @@ msgstr "スペイン版(CDバージョン)はまだサポートされていま�
 
 #: engines/twine/metaengine.cpp:66
 msgid "Enable wall collisions"
-msgstr ""
+msgstr "壁の衝突判定を有効にする"
 
 #: engines/twine/metaengine.cpp:67
 msgid "Enable the original wall collision damage"
-msgstr ""
+msgstr "壁衝突時のダメージを有効にする"
 
 #: engines/twine/metaengine.cpp:73
 msgid "Enable cross fade"
@@ -6834,23 +6883,20 @@ msgid ""
 msgstr ""
 
 #: engines/twine/metaengine.cpp:88
-#, fuzzy
 msgid "Enable debug mode"
-msgstr "マウス操作を有効にする"
+msgstr "デバッグモードを有効にする"
 
 #: engines/twine/metaengine.cpp:89
-#, fuzzy
 msgid "Enable the debug mode"
-msgstr "ゲームの音声を有効にする"
+msgstr "デバッグモードを有効にする"
 
 #: engines/twine/metaengine.cpp:95
-#, fuzzy
 msgid "Enable audio CD"
-msgstr "音声を有効にする"
+msgstr "オーディオCDを有効にする"
 
 #: engines/twine/metaengine.cpp:96
 msgid "Enable the original audio cd track"
-msgstr ""
+msgstr "オリジナルオーディオCDトラックを有効にする"
 
 #: engines/twine/metaengine.cpp:102
 msgid "Enable sound"
@@ -6869,23 +6915,20 @@ msgid "Enable the voices for the game"
 msgstr "ゲーム音声を有効にする"
 
 #: engines/twine/metaengine.cpp:116
-#, fuzzy
 msgid "Enable text"
-msgstr "有効にする"
+msgstr "テキスト表示を有効にする"
 
 #: engines/twine/metaengine.cpp:117
-#, fuzzy
 msgid "Enable the text for the game"
-msgstr "ゲームのフルネーム"
+msgstr "ゲームテキストの表示を有効にする"
 
 #: engines/twine/metaengine.cpp:123
 msgid "Enable movies"
 msgstr "ムービーを有効にする"
 
 #: engines/twine/metaengine.cpp:124
-#, fuzzy
 msgid "Enable the cutscenes for the game"
-msgstr "ゲーム音声を有効にする"
+msgstr "ゲーム内ムービーを有効にする"
 
 #: engines/twine/metaengine.cpp:130
 msgid "Enable mouse"
@@ -6903,118 +6946,118 @@ msgstr ""
 msgid "Enable the USA specific version flags"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:172
+#: engines/twine/metaengine.cpp:183
 msgid "Debug Next Room"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:177
+#: engines/twine/metaengine.cpp:188
 msgid "Debug Previous Room"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:182
+#: engines/twine/metaengine.cpp:193
 msgid "Debug Apply Celling Grid"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:187
+#: engines/twine/metaengine.cpp:198
 msgid "Debug Increase Celling Grid Index"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:192
+#: engines/twine/metaengine.cpp:203
 msgid "Debug Decrease Celling Grid Index"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:197
+#: engines/twine/metaengine.cpp:208
 msgid "Debug Grid Camera Up"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:202
+#: engines/twine/metaengine.cpp:213
 msgid "Debug Grid Camera Down"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:207
+#: engines/twine/metaengine.cpp:218
 msgid "Debug Grid Camera Left"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:213
+#: engines/twine/metaengine.cpp:224
 msgid "Debug Grid Camera Right"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:218
+#: engines/twine/metaengine.cpp:229
 msgid "Debug Menu"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:223
+#: engines/twine/metaengine.cpp:234
 msgid "Debug Menu Execute"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:228 engines/twine/metaengine.cpp:248
+#: engines/twine/metaengine.cpp:239 engines/twine/metaengine.cpp:259
 msgid "Normal Behaviour"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:233 engines/twine/metaengine.cpp:253
+#: engines/twine/metaengine.cpp:244 engines/twine/metaengine.cpp:264
 msgid "Athletic Behaviour"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:238 engines/twine/metaengine.cpp:258
+#: engines/twine/metaengine.cpp:249 engines/twine/metaengine.cpp:269
 msgid "Aggressive Behaviour"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:243 engines/twine/metaengine.cpp:263
+#: engines/twine/metaengine.cpp:254 engines/twine/metaengine.cpp:274
 msgid "Discreet Behaviour"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:268
+#: engines/twine/metaengine.cpp:279
 msgid "Behaviour Action"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:274
+#: engines/twine/metaengine.cpp:285
 msgid "Change Behaviour"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:280
+#: engines/twine/metaengine.cpp:292
 msgid "Options Menu"
 msgstr "設定"
 
-#: engines/twine/metaengine.cpp:291
+#: engines/twine/metaengine.cpp:304
 msgid "Use Selected Object"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:297
+#: engines/twine/metaengine.cpp:310
 msgid "Throw Magic Ball"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:309
+#: engines/twine/metaengine.cpp:324
 #, fuzzy
 msgid "Move Backward"
 msgstr "去る"
 
-#: engines/twine/metaengine.cpp:327
+#: engines/twine/metaengine.cpp:345
 msgid "Use Protopack"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:332
+#: engines/twine/metaengine.cpp:350
 msgid "Open Holomap"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:344
+#: engines/twine/metaengine.cpp:363
 #, fuzzy
 msgid "Special Action"
 msgstr "自発的"
 
-#: engines/twine/metaengine.cpp:349 engines/wintermute/keymapper_tables.h:61
+#: engines/twine/metaengine.cpp:369 engines/wintermute/keymapper_tables.h:61
 msgid "Escape"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:360
+#: engines/twine/metaengine.cpp:382
 msgid "Accept"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:367 engines/twine/metaengine.cpp:411
-#: engines/twine/metaengine.cpp:428
+#: engines/twine/metaengine.cpp:390 engines/twine/metaengine.cpp:442
+#: engines/twine/metaengine.cpp:461
 msgid "Abort"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:399
+#: engines/twine/metaengine.cpp:428
 #, fuzzy
 msgid "Next Page"
 msgstr "次のページ"
@@ -7051,20 +7094,20 @@ msgstr ""
 msgid "Transfer Character"
 msgstr ""
 
-#: engines/ultima/ultima8/meta_engine.cpp:129
+#: engines/ultima/ultima8/meta_engine.cpp:132
 msgid "Ultima VIII"
 msgstr "ウルティマ VIII"
 
-#: engines/ultima/ultima8/meta_engine.cpp:129
+#: engines/ultima/ultima8/meta_engine.cpp:132
 msgid "Crusader"
 msgstr ""
 
-#: engines/ultima/ultima8/meta_engine.cpp:176
+#: engines/ultima/ultima8/meta_engine.cpp:179
 #, fuzzy
 msgid "Ultima VIII Cheats"
 msgstr "ウルティマ VIII"
 
-#: engines/ultima/ultima8/meta_engine.cpp:193
+#: engines/ultima/ultima8/meta_engine.cpp:196
 #, fuzzy
 msgid "Ultima VIII Debug"
 msgstr "ウルティマ VIII"

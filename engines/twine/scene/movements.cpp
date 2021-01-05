@@ -248,11 +248,11 @@ bool Movements::processBehaviourExecution(int actorIdx) {
 				}
 			}
 		} else {
-			if (_engine->_input->toggleActionIfActive(TwinEActionType::TurnLeft)) {
+			if (_engine->_input->isActionActive(TwinEActionType::TurnLeft)) {
 				_engine->_animations->initAnim(AnimationTypes::kLeftPunch, 1, AnimationTypes::kStanding, actorIdx);
-			} else if (_engine->_input->toggleActionIfActive(TwinEActionType::TurnRight)) {
+			} else if (_engine->_input->isActionActive(TwinEActionType::TurnRight)) {
 				_engine->_animations->initAnim(AnimationTypes::kRightPunch, 1, AnimationTypes::kStanding, actorIdx);
-			} else if (_engine->_input->toggleActionIfActive(TwinEActionType::MoveForward)) {
+			} else if (_engine->_input->isActionActive(TwinEActionType::MoveForward)) {
 				_engine->_animations->initAnim(AnimationTypes::kKick, 1, AnimationTypes::kStanding, actorIdx);
 			}
 		}
@@ -292,6 +292,12 @@ bool Movements::processAttackExecution(int actorIdx) {
 
 void Movements::processMovementExecution(int actorIdx) {
 	ActorStruct *actor = _engine->_scene->getActor(actorIdx);
+	if (_engine->_actor->autoAgressive && actor->isAttackAnimationActive()) {
+		return;
+	}
+	if (actor->isJumpAnimationActive()) {
+		return;
+	}
 	if (!changedCursorKeys || heroAction) {
 		// if walking should get stopped
 		if (!_engine->_input->isActionActive(TwinEActionType::MoveForward) && !_engine->_input->isActionActive(TwinEActionType::MoveBackward)) {
@@ -336,6 +342,12 @@ void Movements::processMovementExecution(int actorIdx) {
 
 void Movements::processRotationExecution(int actorIdx) {
 	ActorStruct *actor = _engine->_scene->getActor(actorIdx);
+	if (_engine->_actor->autoAgressive && actor->isAttackAnimationActive()) {
+		return;
+	}
+	if (actor->isJumpAnimationActive()) {
+		return;
+	}
 	int16 tempAngle;
 	if (_engine->_input->isActionActive(TwinEActionType::TurnLeft)) {
 		tempAngle = ANGLE_90;

@@ -22,6 +22,7 @@
 
 #include "twine/debugger/console.h"
 #include "common/scummsys.h"
+#include "common/util.h"
 #include "twine/debugger/debug_grid.h"
 #include "twine/debugger/debug_scene.h"
 #include "twine/scene/gamestate.h"
@@ -35,6 +36,7 @@ TwinEConsole::TwinEConsole(TwinEEngine *engine) : _engine(engine), GUI::Debugger
 	registerCmd("give_allitems", WRAP_METHOD(TwinEConsole, doGiveAllItems));
 	registerCmd("give_key", WRAP_METHOD(TwinEConsole, doGiveKey));
 	registerCmd("change_scene", WRAP_METHOD(TwinEConsole, doChangeScene));
+	registerCmd("magic_points", WRAP_METHOD(TwinEConsole, doAddMagicPoints));
 	registerCmd("list_menutext", WRAP_METHOD(TwinEConsole, doListMenuText));
 	registerCmd("toggle_debug", WRAP_METHOD(TwinEConsole, doToggleDebug));
 	registerCmd("toggle_zones", WRAP_METHOD(TwinEConsole, doToggleZoneRendering));
@@ -70,6 +72,17 @@ bool TwinEConsole::doToggleZoneRendering(int argc, const char **argv) {
 
 bool TwinEConsole::doToggleClipRendering(int argc, const char **argv) {
 	TOGGLE_DEBUG(_engine->_debugScene->showingClips, "clip rendering\n")
+	return true;
+}
+
+bool TwinEConsole::doAddMagicPoints(int argc, const char **argv) {
+	if (argc < 2) {
+		debugPrintf("Usage: specify the magic points\n");
+		return false;
+	}
+	const int16 magicPoints = atoi(argv[1]);
+	_engine->_gameState->magicLevelIdx = CLIP<int16>(magicPoints, 0, 4);
+	_engine->_gameState->inventoryMagicPoints = _engine->_gameState->magicLevelIdx * 20;
 	return true;
 }
 
@@ -199,21 +212,43 @@ bool TwinEConsole::doChangeScene(int argc, const char **argv) {
 }
 
 bool TwinEConsole::doGiveAllItems(int argc, const char **argv) {
+	GameState* state = _engine->_gameState;
 	for (int32 i = 0; i < NUM_INVENTORY_ITEMS; ++i) {
-		_engine->_gameState->gameFlags[i] = 1;
-		_engine->_gameState->inventoryFlags[i] = 1;
+		state->gameFlags[i] = 1;
+		state->inventoryFlags[i] = 1;
 	}
 	_engine->_gameState->gameFlags[GAMEFLAG_INVENTORY_DISABLED] = 0;
-	int amount = 10;
+	int amount = 1;
 	if (argc >= 2) {
 		amount = atoi(argv[1]);
 	}
-	_engine->_gameState->inventoryNumKeys += amount;
-	_engine->_gameState->inventoryNumKashes += amount;
-	_engine->_gameState->inventoryNumLeafsBox += amount;
-	_engine->_gameState->inventoryNumLeafs += amount;
-	_engine->_gameState->inventoryMagicPoints += amount;
-	_engine->_gameState->inventoryNumGas += amount;
+	state->inventoryNumKeys += amount;
+	state->inventoryNumKashes += amount;
+	state->inventoryNumLeafsBox += amount;
+	state->inventoryNumLeafs += amount;
+	state->inventoryMagicPoints += amount;
+	state->inventoryNumGas += amount;
+
+	if (state->inventoryNumKashes > 999) {
+		state->inventoryNumKashes = 999;
+	}
+
+	if (state->inventoryNumLeafsBox > 10) {
+		state->inventoryNumLeafsBox = 10;
+	}
+
+	if (state->inventoryNumLeafs > state->inventoryNumLeafsBox) {
+		state->inventoryNumLeafs = state->inventoryNumLeafsBox;
+	}
+
+	if (state->inventoryNumGas > 100) {
+		state->inventoryNumGas = 100;
+	}
+
+	if (state->inventoryMagicPoints > state->magicLevelIdx * 20) {
+		state->inventoryMagicPoints = state->magicLevelIdx * 20;
+	}
+
 	return true;
 }
 
