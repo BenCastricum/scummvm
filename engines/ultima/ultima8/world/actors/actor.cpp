@@ -24,23 +24,17 @@
 #include "ultima/ultima8/kernel/object_manager.h"
 #include "ultima/ultima8/kernel/kernel.h"
 #include "ultima/ultima8/kernel/delay_process.h"
-#include "ultima/ultima8/kernel/core_app.h"
 #include "ultima/ultima8/usecode/uc_machine.h"
 #include "ultima/ultima8/usecode/uc_list.h"
-#include "ultima/ultima8/misc/direction.h"
 #include "ultima/ultima8/misc/direction_util.h"
 #include "ultima/ultima8/games/game_data.h"
 #include "ultima/ultima8/graphics/anim_dat.h"
 #include "ultima/ultima8/graphics/main_shape_archive.h"
-#include "ultima/ultima8/graphics/shape_info.h"
 #include "ultima/ultima8/graphics/shape.h"
-#include "ultima/ultima8/world/actors/actor.h"
 #include "ultima/ultima8/world/actors/actor_anim_process.h"
 #include "ultima/ultima8/world/actors/animation_tracker.h"
 #include "ultima/ultima8/world/actors/anim_action.h"
-#include "ultima/ultima8/world/actors/animation.h"
 #include "ultima/ultima8/world/actors/npc_dat.h"
-#include "ultima/ultima8/world/actors/pathfinder.h"
 #include "ultima/ultima8/world/actors/resurrection_process.h"
 #include "ultima/ultima8/world/actors/clear_feign_death_process.h"
 #include "ultima/ultima8/world/actors/pathfinder_process.h"
@@ -52,7 +46,6 @@
 #include "ultima/ultima8/world/actors/surrender_process.h"
 #include "ultima/ultima8/world/world.h"
 #include "ultima/ultima8/world/current_map.h"
-#include "ultima/ultima8/world/destroy_item_process.h"
 #include "ultima/ultima8/world/sprite_process.h"
 #include "ultima/ultima8/world/target_reticle_process.h"
 #include "ultima/ultima8/world/item_selection_process.h"
@@ -60,7 +53,6 @@
 #include "ultima/ultima8/world/get_object.h"
 #include "ultima/ultima8/world/item_factory.h"
 #include "ultima/ultima8/world/loop_script.h"
-#include "ultima/ultima8/world/fire_type.h"
 #include "ultima/ultima8/audio/audio_process.h"
 #include "ultima/ultima8/audio/music_process.h"
 
@@ -487,15 +479,20 @@ uint16 Actor::doAnim(Animation::Sequence anim, Direction dir, unsigned int steps
 		// Small hack: When switching from 16-dir to 8-dir, fix the direction
 		if (animDirMode(anim) == dirmode_8dirs)
 			dir = static_cast<Direction>(dir - (static_cast<uint32>(dir) % 2));
-		else if (anim == Animation::readyWeapon)
+
+		if (anim == Animation::readyWeapon || anim == Animation::stopRunningAndDrawWeapon ||
+				anim == Animation::combatStand || anim == Animation::attack || anim == Animation::kneel ||
+				anim == Animation::kneelAndFire)
 			setActorFlag(ACT_WEAPONREADY);
-		else if (anim == Animation::unreadyWeapon)
+		else
 			clearActorFlag(ACT_WEAPONREADY);
-		else if (anim == Animation::startKneeling || anim == Animation::kneelAndFire ||
-				 anim == Animation::kneelAndFireSmallWeapon ||
-				 anim == Animation::kneelAndFireLargeWeapon)
+
+		if (anim == Animation::startKneeling || anim == Animation::kneelAndFire ||
+				anim == Animation::kneelAndFireSmallWeapon ||
+				anim == Animation::kneelAndFireLargeWeapon ||
+				anim == Animation::kneel)
 			setActorFlag(ACT_KNEELING);
-		else if (anim == Animation::stopKneeling)
+		else
 			clearActorFlag(ACT_KNEELING);
 	}
 
@@ -628,7 +625,13 @@ uint16 Actor::turnTowardDir(Direction targetdir) {
 	}
 
 	bool done = false;
-	for (Direction dir = curdir; !done; dir = Direction_TurnByDelta(dir, stepDelta, mode)) {
+	Direction firstanimdir = curdir;
+
+	// Skip animating "stand" for the current direction in Crusader.
+	if (GAME_IS_CRUSADER)
+		firstanimdir = Direction_TurnByDelta(curdir, stepDelta, mode);
+
+	for (Direction dir = firstanimdir; !done; dir = Direction_TurnByDelta(dir, stepDelta, mode)) {
 		Animation::Sequence nextanim = turnanim;
 		if (dir == targetdir) {
 			nextanim = standanim;
@@ -2387,7 +2390,7 @@ uint32 Actor::I_isKneeling(const uint8 *args, unsigned int /*argsize*/) {
 	ARG_ACTOR_FROM_PTR(actor);
 	if (!actor) return 0;
 
-	return actor->hasFlags(ACT_KNEELING) ? 1 : 0;
+	return actor->isKneeling() ? 1 : 0;
 }
 
 } // End of namespace Ultima8

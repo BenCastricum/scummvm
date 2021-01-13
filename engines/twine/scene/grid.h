@@ -78,11 +78,12 @@ struct BrickEntry {
 #define SCENE_SIZE_MAX (BRICK_SIZE * GRID_SIZE_X - 1)
 // short min
 #define SCENE_SIZE_MIN (-BRICK_SIZE * GRID_SIZE_X)
+#define SCENE_SIZE_HALF (BRICK_SIZE * GRID_SIZE_X / 2)
+#define SCENE_SIZE_HALFF (BRICK_SIZE * GRID_SIZE_X / 2.0f)
 
 #define BRICK_SIZE 512
 #define BRICK_HEIGHT 256
 
-#define NUMBRICKENTRIES (1 + (SCREEN_WIDTH + 24) / 24)
 #define MAXBRICKS 150
 
 class TwinEEngine;
@@ -163,9 +164,10 @@ private:
 	int32 numberOfBll = 0;
 
 	/** Brick data buffer */
-	BrickEntry bricksDataBuffer[NUMBRICKENTRIES][MAXBRICKS];
+	BrickEntry *bricksDataBuffer = nullptr;
 	/** Brick info buffer */
-	int16 brickInfoBuffer[NUMBRICKENTRIES]{0};
+	int16 *brickInfoBuffer = nullptr;
+	int32 _brickInfoBufferSize = 0;
 
 	/** Current brick pixel X position */
 	int32 brickPixelPosX = 0;
@@ -177,11 +179,14 @@ private:
 	uint8 *blockBuffer = nullptr;
 
 	uint8 *getBlockBuffer(int32 x, int32 y, int32 z);
+	const BrickEntry* getBrickEntry(int32 j, int32 i) const;
 
 	void updateCollisionCoordinates(int32 x, int32 y, int32 z);
 public:
 	Grid(TwinEEngine *engine);
 	~Grid();
+
+	void init(int32 w, int32 h);
 
 	/** Grid block entry types */
 	typedef struct BlockEntry blockMap[GRID_SIZE_X][GRID_SIZE_Z][GRID_SIZE_Y];

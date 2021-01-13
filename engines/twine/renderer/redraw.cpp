@@ -60,7 +60,7 @@ void Redraw::addRedrawCurrentArea(const Common::Rect &redrawArea) {
 			rect.left = leftValue;
 			rect.top = topValue;
 			rect.right = rightValue;
-			rect.bottom = MIN<int32>(SCREEN_TEXTLIMIT_BOTTOM, bottomValue);
+			rect.bottom = MIN<int32>((_engine->height() - 1), bottomValue);
 
 			assert(rect.left <= rect.right);
 			assert(rect.top <= rect.bottom);
@@ -72,7 +72,7 @@ void Redraw::addRedrawCurrentArea(const Common::Rect &redrawArea) {
 	rect.left = redrawArea.left;
 	rect.top = redrawArea.top;
 	rect.right = redrawArea.right;
-	rect.bottom = MIN<int32>(SCREEN_TEXTLIMIT_BOTTOM, redrawArea.bottom);
+	rect.bottom = MIN<int32>((_engine->height() - 1), redrawArea.bottom);
 
 	assert(rect.left <= rect.right);
 	assert(rect.top <= rect.bottom);
@@ -88,17 +88,17 @@ void Redraw::addRedrawArea(const Common::Rect &rect) {
 }
 
 void Redraw::addRedrawArea(int32 left, int32 top, int32 right, int32 bottom) {
-	if (left < SCREEN_TEXTLIMIT_LEFT) {
-		left = SCREEN_TEXTLIMIT_LEFT;
+	if (left < 0) {
+		left = 0;
 	}
-	if (top < SCREEN_TEXTLIMIT_TOP) {
-		top = SCREEN_TEXTLIMIT_TOP;
+	if (top < 0) {
+		top = 0;
 	}
-	if (right >= SCREEN_WIDTH) {
-		right = SCREEN_TEXTLIMIT_RIGHT;
+	if (right >= _engine->width()) {
+		right = (_engine->width() - 1);
 	}
-	if (bottom >= SCREEN_HEIGHT) {
-		bottom = SCREEN_TEXTLIMIT_BOTTOM;
+	if (bottom >= _engine->height()) {
+		bottom = (_engine->height() - 1);
 	}
 
 	if (left > right || top > bottom) {
@@ -201,7 +201,7 @@ int32 Redraw::fillActorDrawingList(bool bgRedraw) {
 			_engine->_renderer->projectPositionOnScreen(actor->x - _engine->_grid->cameraX, actor->y - _engine->_grid->cameraY, actor->z - _engine->_grid->cameraZ);
 
 			// check if actor is visible on screen, otherwise don't display it
-			if (_engine->_renderer->projPosX > -50 && _engine->_renderer->projPosX < SCREEN_WIDTH + 40 && _engine->_renderer->projPosY > -30 && _engine->_renderer->projPosY < SCREEN_HEIGHT + 100) {
+			if (_engine->_renderer->projPosX > -50 && _engine->_renderer->projPosX < _engine->width() + 40 && _engine->_renderer->projPosY > -30 && _engine->_renderer->projPosY < _engine->height() + 100) {
 				actor->dynamicFlags.bIsVisible = 1;
 			}
 			continue;
@@ -213,8 +213,8 @@ int32 Redraw::fillActorDrawingList(bool bgRedraw) {
 		// get actor position on screen
 		_engine->_renderer->projectPositionOnScreen(actor->x - _engine->_grid->cameraX, actor->y - _engine->_grid->cameraY, actor->z - _engine->_grid->cameraZ);
 
-		if ((actor->staticFlags.bUsesClipping && _engine->_renderer->projPosX > -112 && _engine->_renderer->projPosX < SCREEN_WIDTH + 112 && _engine->_renderer->projPosY > -50 && _engine->_renderer->projPosY < SCREEN_HEIGHT + 171) ||
-		    ((!actor->staticFlags.bUsesClipping) && _engine->_renderer->projPosX > -50 && _engine->_renderer->projPosX < SCREEN_WIDTH + 40 && _engine->_renderer->projPosY > -30 && _engine->_renderer->projPosY < SCREEN_HEIGHT + 100)) {
+		if ((actor->staticFlags.bUsesClipping && _engine->_renderer->projPosX > -112 && _engine->_renderer->projPosX < _engine->width() + 112 && _engine->_renderer->projPosY > -50 && _engine->_renderer->projPosY < _engine->height() + 171) ||
+		    ((!actor->staticFlags.bUsesClipping) && _engine->_renderer->projPosX > -50 && _engine->_renderer->projPosX < _engine->width() + 40 && _engine->_renderer->projPosY > -30 && _engine->_renderer->projPosY < _engine->height() + 100)) {
 
 			int32 tmpVal = actor->z + actor->x - _engine->_grid->cameraX - _engine->_grid->cameraZ;
 
@@ -281,7 +281,7 @@ int32 Redraw::fillExtraDrawingList(int32 drawListPos) {
 		if ((extra->type & ExtraType::TIME_OUT) || (extra->type & ExtraType::FLASH) || (extra->payload.lifeTime + extra->spawnTime - 150 < _engine->lbaTime) || (!((_engine->lbaTime + extra->spawnTime) & 8))) {
 			_engine->_renderer->projectPositionOnScreen(extra->x - _engine->_grid->cameraX, extra->y - _engine->_grid->cameraY, extra->z - _engine->_grid->cameraZ);
 
-			if (_engine->_renderer->projPosX > -50 && _engine->_renderer->projPosX < SCREEN_WIDTH + 40 && _engine->_renderer->projPosY > -30 && _engine->_renderer->projPosY < SCREEN_HEIGHT + 100) {
+			if (_engine->_renderer->projPosX > -50 && _engine->_renderer->projPosX < _engine->width() + 40 && _engine->_renderer->projPosY > -30 && _engine->_renderer->projPosY < _engine->height() + 100) {
 				drawList[drawListPos].posValue = extra->x - _engine->_grid->cameraX + extra->z - _engine->_grid->cameraZ;
 				drawList[drawListPos].actorIdx = i;
 				drawList[drawListPos].type = DrawListType::DrawExtras;
@@ -344,24 +344,24 @@ void Redraw::processDrawListActors(const DrawListStruct &drawCmd, bool bgRedraw)
 	const int32 x = actor->x - _engine->_grid->cameraX;
 	const int32 y = actor->y - _engine->_grid->cameraY;
 	const int32 z = actor->z - _engine->_grid->cameraZ;
-	if (!_engine->_renderer->renderIsoModel(x, y, z, 0, actor->angle, 0, _engine->_actor->bodyTable[actor->entity])) {
+	if (!_engine->_renderer->renderIsoModel(x, y, z, ANGLE_0, actor->angle, ANGLE_0, _engine->_actor->bodyTable[actor->entity])) {
 		return;
 	}
 
-	if (renderRect.left < SCREEN_TEXTLIMIT_LEFT) {
-		renderRect.left = SCREEN_TEXTLIMIT_LEFT;
+	if (renderRect.left < 0) {
+		renderRect.left = 0;
 	}
 
-	if (renderRect.top < SCREEN_TEXTLIMIT_TOP) {
-		renderRect.top = SCREEN_TEXTLIMIT_TOP;
+	if (renderRect.top < 0) {
+		renderRect.top = 0;
 	}
 
-	if (renderRect.right >= SCREEN_WIDTH) {
-		renderRect.right = SCREEN_TEXTLIMIT_RIGHT;
+	if (renderRect.right >= _engine->width()) {
+		renderRect.right = (_engine->width() - 1);
 	}
 
-	if (renderRect.bottom >= SCREEN_HEIGHT) {
-		renderRect.bottom = SCREEN_TEXTLIMIT_BOTTOM;
+	if (renderRect.bottom >= _engine->height()) {
+		renderRect.bottom = (_engine->height() - 1);
 	}
 
 	_engine->_interface->setClip(renderRect);
@@ -604,7 +604,7 @@ void Redraw::renderOverlays() {
 
 				_engine->_interface->setClip(renderRect);
 
-				_engine->_text->setFontColor(155);
+				_engine->_text->setFontColor(COLOR_GOLD);
 
 				_engine->_text->drawText(renderRect.left, renderRect.top, text);
 
@@ -618,13 +618,10 @@ void Redraw::renderOverlays() {
 				_engine->_interface->drawSplittedBox(rect, 0);
 				_engine->_interface->setClip(rect);
 
-				Renderer::prepareIsoModel(_engine->_resources->inventoryTable[item]);
-				_engine->_renderer->setCameraPosition(40, 40, 128, 200, 200);
-				_engine->_renderer->setCameraAngle(0, 0, 0, 60, 0, 0, 16000);
-
+				uint8* bodyPtr = _engine->_resources->inventoryTable[item];
+				Renderer::prepareIsoModel(bodyPtr);
 				overlayRotation += 1; // overlayRotation += 8;
-
-				_engine->_renderer->renderIsoModel(0, 0, 0, 0, overlayRotation, 0, _engine->_resources->inventoryTable[item]);
+				_engine->_renderer->renderInventoryItem(40, 40, bodyPtr, overlayRotation, 16000);
 				_engine->_menu->drawBox(rect);
 				addRedrawArea(rect);
 				_engine->_gameState->initEngineProjections();
@@ -642,20 +639,20 @@ void Redraw::renderOverlays() {
 				renderRect.right = overlay->x + (textLength / 2);
 				renderRect.bottom = overlay->y + textHeight;
 
-				if (renderRect.left < SCREEN_TEXTLIMIT_LEFT) {
-					renderRect.left = SCREEN_TEXTLIMIT_LEFT;
+				if (renderRect.left < 0) {
+					renderRect.left = 0;
 				}
 
-				if (renderRect.top < SCREEN_TEXTLIMIT_TOP) {
-					renderRect.top = SCREEN_TEXTLIMIT_TOP;
+				if (renderRect.top < 0) {
+					renderRect.top = 0;
 				}
 
-				if (renderRect.right > SCREEN_TEXTLIMIT_RIGHT) {
-					renderRect.right = SCREEN_TEXTLIMIT_RIGHT;
+				if (renderRect.right > (_engine->width() - 1)) {
+					renderRect.right = (_engine->width() - 1);
 				}
 
-				if (renderRect.bottom > SCREEN_TEXTLIMIT_BOTTOM) {
-					renderRect.bottom = SCREEN_TEXTLIMIT_BOTTOM;
+				if (renderRect.bottom > (_engine->height() - 1)) {
+					renderRect.bottom = (_engine->height() - 1);
 				}
 
 				_engine->_interface->setClip(renderRect);
@@ -769,7 +766,7 @@ void Redraw::drawBubble(int32 actorIdx) {
 
 	_engine->_grid->drawSprite(renderRect.left, renderRect.top, spritePtr);
 	if (_engine->_interface->textWindow.left <= _engine->_interface->textWindow.right && _engine->_interface->textWindow.top <= _engine->_interface->textWindow.bottom) {
-		_engine->copyBlockPhys(renderRect);
+		_engine->copyBlockPhys(renderRect, true);
 	}
 
 	_engine->_interface->resetClip();
@@ -788,8 +785,8 @@ void Redraw::zoomScreenScale() {
 			*dest++ = *src;
 			*dest++ = *src++;
 		}
-		//memcpy(dest, dest - SCREEN_WIDTH, SCREEN_WIDTH);
-		//dest += SCREEN_WIDTH;
+		//memcpy(dest, dest - _engine->width(), _engine->width());
+		//dest += _engine->width();
 	}
 	_engine->_screens->copyScreen(_engine->workVideoBuffer, _engine->frontVideoBuffer);
 	zoomWorkVideoBuffer.free();

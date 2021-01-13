@@ -140,19 +140,28 @@ static const ExtraGuiOption OptUSAVersion = {
 	false
 };
 
+static const ExtraGuiOption OptHighRes = {
+	_s("Enable high resolution"),
+	_s("Enable a higher resolution for the game"),
+	"usehighres",
+	false
+};
+
 const ExtraGuiOptions TwinEMetaEngine::getExtraGuiOptions(const Common::String &target) const {
 	ExtraGuiOptions options;
 	options.push_back(OptWallCollision);
 	options.push_back(OptCrossFade);
 	options.push_back(OptDisableSaveMenu);
-	options.push_back(OptDebug);
-	options.push_back(OptUseCD);
+	options.push_back(OptMouse);
+	options.push_back(OptHighRes);
 	options.push_back(OptSound);
+	options.push_back(OptUseCD);
+	// TODO: only 7 are shown right onw - see GUI::ExtraGuiOptionsWidget
 	options.push_back(OptMovies);
 	options.push_back(OptUSAVersion);
 	options.push_back(OptVoices);
 	options.push_back(OptText);
-	options.push_back(OptMouse);
+	options.push_back(OptDebug);
 	return options;
 }
 
@@ -467,7 +476,7 @@ Common::KeymapArray TwinEMetaEngine::initKeymaps(const char *target) const {
 
 		act = new Action("UP", _("Up"));
 		act->setCustomEngineActionEvent(TwinEActionType::HolomapUp);
-		act->addDefaultInputMapping("UP");
+		act->addDefaultInputMapping("CTRL+UP");
 		act->addDefaultInputMapping("KP8");
 		act->addDefaultInputMapping("MOUSE_WHEEL_UP");
 		act->addDefaultInputMapping("JOY_UP");
@@ -475,7 +484,7 @@ Common::KeymapArray TwinEMetaEngine::initKeymaps(const char *target) const {
 
 		act = new Action("DOWN", _("Down"));
 		act->setCustomEngineActionEvent(TwinEActionType::HolomapDown);
-		act->addDefaultInputMapping("DOWN");
+		act->addDefaultInputMapping("CTRL+DOWN");
 		act->addDefaultInputMapping("KP2");
 		act->addDefaultInputMapping("MOUSE_WHEEL_DOWN");
 		act->addDefaultInputMapping("JOY_DOWN");
@@ -483,16 +492,26 @@ Common::KeymapArray TwinEMetaEngine::initKeymaps(const char *target) const {
 
 		act = new Action("RIGHT", _("Right"));
 		act->setCustomEngineActionEvent(TwinEActionType::HolomapRight);
-		act->addDefaultInputMapping("RIGHT");
+		act->addDefaultInputMapping("CTRL+RIGHT");
 		act->addDefaultInputMapping("KP6");
 		act->addDefaultInputMapping("JOY_RIGHT");
 		holomapKeyMap->addAction(act);
 
 		act = new Action("LEFT", _("Left"));
 		act->setCustomEngineActionEvent(TwinEActionType::HolomapLeft);
-		act->addDefaultInputMapping("LEFT");
+		act->addDefaultInputMapping("CTRL+LEFT");
 		act->addDefaultInputMapping("KP4");
 		act->addDefaultInputMapping("JOY_LEFT");
+		holomapKeyMap->addAction(act);
+
+		act = new Action("PREV", _("Previous location"));
+		act->setCustomEngineActionEvent(TwinEActionType::HolomapPrev);
+		act->addDefaultInputMapping("RIGHT");
+		holomapKeyMap->addAction(act);
+
+		act = new Action("NEXT", _("Next location"));
+		act->setCustomEngineActionEvent(TwinEActionType::HolomapNext);
+		act->addDefaultInputMapping("LEFT");
 		holomapKeyMap->addAction(act);
 
 		array[3] = holomapKeyMap;

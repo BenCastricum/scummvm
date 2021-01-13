@@ -232,6 +232,7 @@ void FlaMovies::processFrame() {
 FlaMovies::FlaMovies(TwinEEngine *engine) : _engine(engine) {}
 
 void FlaMovies::prepareGIF(int index) {
+	// TODO: version 87a 640x480
 #if 0
 	Image::GIFDecoder decoder;
 	Common::SeekableReadStream *stream = HQR::makeReadStream("FLA_GIF.HQR", index);
@@ -265,6 +266,7 @@ void FlaMovies::playGIFMovie(const char *flaName) {
 
 	debug("Play gif %s", flaName);
 	// TODO: use the HQR 23th entry (movies informations)
+	// TODO: there are gifs [1-18]
 	if (!strcmp(flaName, FLA_INTROD)) {
 		prepareGIF(3);
 		prepareGIF(4);
@@ -329,11 +331,13 @@ void FlaMovies::playFlaMovie(const char *flaName) {
 	flaHeaderData.numOfFrames = file.readUint32LE();
 	flaHeaderData.speed = file.readByte();
 	flaHeaderData.var1 = file.readByte();
+	debug(2, "Unknown byte in fla file: %i", flaHeaderData.var1);
 	flaHeaderData.xsize = file.readUint16LE();
 	flaHeaderData.ysize = file.readUint16LE();
 
 	samplesInFla = file.readUint16LE();
-	file.skip(2);
+	const uint16 unk2 = file.readUint16LE();
+	debug(2, "Unknown uint16 in fla file: %i", unk2);
 
 	file.skip(4 * samplesInFla);
 
@@ -345,6 +349,7 @@ void FlaMovies::playFlaMovie(const char *flaName) {
 		ScopedKeyMap scopedKeyMap(_engine, cutsceneKeyMapId);
 
 		do {
+			FrameMarker frame;
 			ScopedFPS scopedFps(flaHeaderData.speed);
 			_engine->readKeys();
 			if (_engine->shouldQuit()) {

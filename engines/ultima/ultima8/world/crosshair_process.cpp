@@ -26,8 +26,6 @@
 #include "ultima/ultima8/world/actors/main_actor.h"
 #include "ultima/ultima8/world/actors/cru_avatar_mover_process.h"
 #include "ultima/ultima8/world/crosshair_process.h"
-#include "ultima/ultima8/world/item.h"
-#include "ultima/ultima8/world/world.h"
 #include "ultima/ultima8/world/item_factory.h"
 #include "ultima/ultima8/world/get_object.h"
 #include "ultima/ultima8/ultima8.h"
@@ -65,6 +63,10 @@ void CrosshairProcess::run() {
 			return;
 		}
 		double angle = mover->getAvatarAngleDegrees() + 90.0;
+		if (angle < 90.0) {
+			// -1 is used to record the avatar is not in combat, so shouldn't happen?
+			return;
+		}
 		// Convert angle to 0~2pi
 		double rads = Common::deg2rad(angle);
 		float xoff = CROSSHAIR_DIST * cos(rads);

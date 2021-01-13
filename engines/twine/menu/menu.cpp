@@ -61,7 +61,7 @@ enum _MenuButtonTypes {
 	kCDVolume = 3,
 	kLineVolume = 4,
 	kMasterVolume = 5,
-	kAgressiveMode = 6,
+	kAggressiveMode = 6,
 	kPolygonDetails = 7,
 	kShadowSettings = 8,
 	kSceneryZoom = 9
@@ -115,7 +115,7 @@ static MenuSettings createOptionsMenu() {
 static MenuSettings createAdvancedOptionsMenu() {
 	MenuSettings settings;
 	settings.addButton(TextId::kReturnMenu);
-	settings.addButton(TextId::kBehaviourAgressiveManual, MenuButtonTypes::kAgressiveMode);
+	settings.addButton(TextId::kBehaviourAggressiveManual, MenuButtonTypes::kAggressiveMode);
 	settings.addButton(TextId::kDetailsPolygonsHigh, MenuButtonTypes::kPolygonDetails);
 	settings.addButton(TextId::kDetailsShadowHigh, MenuButtonTypes::kShadowSettings);
 	settings.addButton(TextId::kScenaryZoomOn, MenuButtonTypes::kSceneryZoom);
@@ -297,10 +297,10 @@ void Menu::drawButtonGfx(const MenuSettings *menuSettings, const Common::Rect &r
 
 	drawBox(rect);
 
-	_engine->_text->setFontColor(15);
+	_engine->_text->setFontColor(COLOR_WHITE);
 	_engine->_text->setFontParameters(2, 8);
 	const int32 textSize = _engine->_text->getTextSize(dialText);
-	_engine->_text->drawText((SCREEN_WIDTH / 2) - (textSize / 2), rect.top + 7, dialText);
+	_engine->_text->drawText((_engine->width() / 2) - (textSize / 2), rect.top + 7, dialText);
 
 	_engine->copyBlockPhys(rect);
 }
@@ -326,11 +326,11 @@ int16 Menu::drawButtons(MenuSettings *menuSettings, bool hover) {
 		if (menuSettings == &advOptionsMenuState) {
 			int16 id = menuSettings->getButtonState(i);
 			switch (id) {
-			case MenuButtonTypes::kAgressiveMode:
-				if (_engine->_actor->autoAgressive) {
-					menuSettings->setButtonTextId(i, TextId::kBehaviourAgressiveAuto);
+			case MenuButtonTypes::kAggressiveMode:
+				if (_engine->_actor->autoAggressive) {
+					menuSettings->setButtonTextId(i, TextId::kBehaviourAggressiveAuto);
 				} else {
-					menuSettings->setButtonTextId(i, TextId::kBehaviourAgressiveManual);
+					menuSettings->setButtonTextId(i, TextId::kBehaviourAggressiveManual);
 				}
 				break;
 			case MenuButtonTypes::kPolygonDetails:
@@ -366,7 +366,7 @@ int16 Menu::drawButtons(MenuSettings *menuSettings, bool hover) {
 		const char *text = menuSettings->getButtonText(_engine->_text, i);
 		const int32 border = 45;
 		const int32 mainMenuButtonHeightHalf = 25;
-		const Common::Rect rect(border, topHeight - mainMenuButtonHeightHalf, SCREEN_WIDTH - border, topHeight + mainMenuButtonHeightHalf);
+		const Common::Rect rect(border, topHeight - mainMenuButtonHeightHalf, _engine->width() - border, topHeight + mainMenuButtonHeightHalf);
 		if (hover) {
 			if (i == buttonNumber) {
 				drawButtonGfx(menuSettings, rect, menuItemId, text, hover);
@@ -406,6 +406,7 @@ int32 Menu::processMenu(MenuSettings *menuSettings) {
 	}
 	uint32 startMillis = _engine->_system->getMillis();
 	do {
+		FrameMarker frame;
 		ScopedFPS scopedFps;
 		const uint32 loopMillis = _engine->_system->getMillis();
 		_engine->readKeys();
@@ -437,9 +438,9 @@ int32 Menu::processMenu(MenuSettings *menuSettings) {
 		const int16 id = menuSettings->getActiveButtonState();
 		if (menuSettings == &advOptionsMenuState) {
 			switch (id) {
-			case MenuButtonTypes::kAgressiveMode:
+			case MenuButtonTypes::kAggressiveMode:
 				if (_engine->_input->toggleActionIfActive(TwinEActionType::UILeft) || _engine->_input->toggleActionIfActive(TwinEActionType::UIRight)) {
-					_engine->_actor->autoAgressive = !_engine->_actor->autoAgressive;
+					_engine->_actor->autoAggressive = !_engine->_actor->autoAggressive;
 				}
 				break;
 			case MenuButtonTypes::kPolygonDetails:
@@ -579,7 +580,7 @@ int32 Menu::advoptionsMenu() {
 		}
 		case kQuitEngine:
 			return kQuitEngine;
-		case TextId::kBehaviourAgressiveManual:
+		case TextId::kBehaviourAggressiveManual:
 		case TextId::kDetailsPolygonsHigh:
 		case TextId::kDetailsShadowHigh:
 		case TextId::kScenaryZoomOn:
@@ -721,6 +722,7 @@ bool Menu::init() {
 }
 
 EngineState Menu::run() {
+	FrameMarker frame;
 	ScopedFPS scopedFps;
 	_engine->_text->initTextBank(TextBankId::Options_and_menus);
 
@@ -772,6 +774,7 @@ int32 Menu::giveupMenu() {
 
 	int32 menuId;
 	do {
+		FrameMarker frame;
 		ScopedFPS scopedFps;
 		_engine->_text->initTextBank(TextBankId::Options_and_menus);
 		menuId = processMenu(localMenu);
@@ -832,13 +835,13 @@ void Menu::drawInfoMenu(int16 left, int16 top, int16 width) {
 
 	/** draw coin sprite */
 	_engine->_grid->drawSprite(boxLeft, top + 15, _engine->_resources->spriteData[SPRITEHQR_KASHES]);
-	_engine->_text->setFontColor(155);
+	_engine->_text->setFontColor(COLOR_GOLD);
 	Common::String inventoryNumKashes = Common::String::format("%d", _engine->_gameState->inventoryNumKashes);
 	_engine->_text->drawText(left + 370, top + 5, inventoryNumKashes.c_str());
 
 	/** draw key sprite */
 	_engine->_grid->drawSprite(boxLeft, top + 55, _engine->_resources->spriteData[SPRITEHQR_KEY]);
-	_engine->_text->setFontColor(155);
+	_engine->_text->setFontColor(COLOR_GOLD);
 	Common::String inventoryNumKeys = Common::String::format("%d", _engine->_gameState->inventoryNumKeys);
 	_engine->_text->drawText(left + 370, top + 40, inventoryNumKeys.c_str());
 
@@ -905,7 +908,9 @@ void Menu::drawBehaviour(HeroBehaviourType behaviour, int32 angle, bool cantDraw
 		const int titleOffset = 10;
 		const int titleHeight = 40;
 		const int32 titleBoxLeft = 110;
-		const int32 titleBoxRight = 540;
+		const int32 titleBoxWidth = 430;
+		const int32 titleBoxCenter = titleBoxLeft + titleBoxWidth / 2;
+		const int32 titleBoxRight = titleBoxLeft + titleBoxWidth;
 		const int32 titleBoxTop = boxRect.bottom + titleOffset;
 		const int32 titleBoxBottom = titleBoxTop + titleHeight;
 
@@ -916,12 +921,12 @@ void Menu::drawBehaviour(HeroBehaviourType behaviour, int32 angle, bool cantDraw
 		_engine->_interface->drawSplittedBox(titleRect, 0);
 		drawBox(titleRect);
 
-		_engine->_text->setFontColor(15);
+		_engine->_text->setFontColor(COLOR_WHITE);
 
 		char dialText[256];
 		_engine->_text->getMenuText(_engine->_actor->getTextIdForBehaviour(), dialText, sizeof(dialText));
 
-		_engine->_text->drawText(SCREEN_WIDTH / 2 - _engine->_text->getTextSize(dialText) / 2, titleBoxTop + 1, dialText);
+		_engine->_text->drawText(titleBoxCenter - _engine->_text->getTextSize(dialText) / 2, titleBoxTop + 1, dialText);
 		_engine->copyBlockPhys(titleRect);
 	} else {
 		_engine->_interface->drawSplittedBox(boxRect, 0);
@@ -997,6 +1002,7 @@ void Menu::processBehaviourMenu() {
 #endif
 	ScopedKeyMap scopedKeyMap(_engine, uiKeyMapId);
 	while (_engine->_input->isActionActive(TwinEActionType::BehaviourMenu) || _engine->_input->isQuickBehaviourActionActive()) {
+		FrameMarker frame;
 		ScopedFPS scopedFps(50);
 		_engine->readKeys();
 
@@ -1068,7 +1074,7 @@ void Menu::drawItem(int32 item, Common::Rect &dirtyRect) {
 	const int32 top = itemY - 32;
 	const int32 bottom = itemY + 32;
 	const Common::Rect rect(left, top, right, bottom);
-	_engine->_interface->drawSplittedBox(rect, inventorySelectedItem == item ? inventorySelectedColor : 0);
+	_engine->_interface->drawSplittedBox(rect, inventorySelectedItem == item ? inventorySelectedColor : COLOR_BLACK);
 
 	if (item < NUM_INVENTORY_ITEMS && _engine->_gameState->hasItem((InventoryItems)item) && !_engine->_gameState->inventoryDisabled()) {
 		Renderer::prepareIsoModel(_engine->_resources->inventoryTable[item]);
@@ -1076,7 +1082,7 @@ void Menu::drawItem(int32 item, Common::Rect &dirtyRect) {
 		_engine->_renderer->renderInventoryItem(itemX, itemY, _engine->_resources->inventoryTable[item], itemAngle[item], 15000);
 
 		if (item == InventoryItems::kGasItem) { // has GAS
-			_engine->_text->setFontColor(15);
+			_engine->_text->setFontColor(COLOR_WHITE);
 			Common::String inventoryNumGas = Common::String::format("%d", _engine->_gameState->inventoryNumGas);
 			_engine->_text->drawText(left + 3, top + 32, inventoryNumGas.c_str());
 		}
@@ -1112,7 +1118,7 @@ void Menu::processInventoryMenu() {
 
 	_engine->_screens->copyScreen(_engine->frontVideoBuffer, _engine->workVideoBuffer);
 
-	_engine->_renderer->setLightVector(896, 950, 0);
+	_engine->_renderer->setLightVector(ANGLE_315, ANGLE_334, ANGLE_0);
 
 	inventorySelectedColor = 68;
 
@@ -1126,7 +1132,7 @@ void Menu::processInventoryMenu() {
 
 	_engine->_text->initTextBank(TextBankId::Inventory_Intro_and_Holomap);
 
-	_engine->_text->setFontCrossColor(4);
+	_engine->_text->setFontCrossColor(COLOR_BRIGHT_BLUE);
 	_engine->_text->initDialogueBox();
 
 	ProgressiveTextState textState = ProgressiveTextState::ContinueRunning;
@@ -1137,6 +1143,7 @@ void Menu::processInventoryMenu() {
 #endif
 	ScopedKeyMap scopedKeyMap(_engine, uiKeyMapId);
 	for (;;) {
+		FrameMarker frame;
 		ScopedFPS fps(66);
 		_engine->readKeys();
 		int32 prevSelectedItem = inventorySelectedItem;

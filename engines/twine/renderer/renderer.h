@@ -39,8 +39,6 @@
 #define POLYGONTYPE_GOURAUD 7
 #define POLYGONTYPE_DITHER 8
 
-#define POLYTABSIZE (SCREEN_HEIGHT * 2)
-
 namespace Common {
 class MemoryReadStream;
 }
@@ -322,7 +320,6 @@ private:
 	bool renderAnimatedModel(ModelData *modelData, const uint8 *bodyPtr, RenderCommand *renderCmds);
 	void circleFill(int32 x, int32 y, int32 radius, uint8 color);
 	bool renderModelElements(int32 numOfPrimitives, const uint8 *polygonPtr, RenderCommand **renderCmds, ModelData *modelData);
-	void getBaseRotationPosition(int32 x, int32 y, int32 z);
 	void getCameraAnglePositions(int32 x, int32 y, int32 z);
 	void applyRotation(Matrix *targetMatrix, const Matrix *currentMatrix);
 	void applyPointsRotation(const pointTab *pointsPtr, int32 numPoints, pointTab *destPoints, const Matrix *rotationMatrix);
@@ -365,11 +362,11 @@ private:
 	RenderCommand _renderCmds[1000];
 	uint8 renderCoordinatesBuffer[10000]{0};
 
-	int16 polyTab[POLYTABSIZE]{0};
-	int16 polyTab2[POLYTABSIZE]{0};
-	// end render polygon vars
+	int32 _polyTabSize = 0;
+	int16 *_polyTab = nullptr;
+	int16 *_polyTab2 = nullptr;
 
-	bool isUsingOrhoProjection = false;
+	bool isUsingOrthoProjection = false;
 
 	void renderPolygonsCopper(uint8 *out, int vtop, int32 vsize, int32 color) const;
 	void renderPolygonsBopper(uint8 *out, int vtop, int32 vsize, int32 color) const;
@@ -391,6 +388,9 @@ private:
 
 public:
 	Renderer(TwinEEngine *engine);
+	~Renderer();
+
+	void init(int32 w, int32 h);
 
 	int16 projPosXScreen = 0; // fullRedrawVar1
 	int16 projPosYScreen = 0; // fullRedrawVar2
@@ -410,6 +410,7 @@ public:
 	const int16 *const shadeAngleTab3;
 
 	void setLightVector(int32 angleX, int32 angleY, int32 angleZ);
+	void getBaseRotationPosition(int32 x, int32 y, int32 z);
 
 	static void prepareIsoModel(uint8 *bodyPtr);
 	void renderPolygons(const CmdRenderPolygon &polygon, Vertex *vertices);

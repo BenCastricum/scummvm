@@ -23,6 +23,7 @@
 #ifndef TWINE_RESOURCES_H
 #define TWINE_RESOURCES_H
 
+#include "common/hashmap.h"
 #include "common/scummsys.h"
 #include "twine/parser/sprite.h"
 #include "twine/scene/gamestate.h"
@@ -55,6 +56,7 @@ namespace TwinE {
 #define RESSHQR_GAMEOVERMDL 21
 
 #define RESSHQR_ALARMREDPAL 22
+#define RESSHQR_FLAINFO 23
 #define RESSHQR_DARKPAL 24
 #define RESSHQR_TWINSEN_ZOE_SENDELLIMG  25
 #define RESSHQR_TWINSEN_ZOE_SENDELLPAL  26
@@ -141,10 +143,16 @@ private:
 	/** Preload all animations */
 	void preloadAnimations();
 	void preloadSamples();
+	void loadFlaInfo();
+
+	using MovieInfoMap = Common::HashMap<Common::String, Common::Array<int32>>;
+	MovieInfoMap _flaMovieFrames;
 
 public:
 	Resources(TwinEEngine *engine) : _engine(engine) {}
 	~Resources();
+
+	const Common::Array<int32>& getFlaMovieInfo(const Common::String &name) const;
 
 	/** Table with all loaded samples */
 	uint8 *inventoryTable[NUM_INVENTORY_ITEMS] {nullptr};

@@ -20,36 +20,24 @@
  *
  */
 
-#include "ultima/ultima8/misc/pent_include.h"
-#include "ultima/ultima8/world/item.h"
 #include "ultima/ultima8/ultima8.h"
 #include "ultima/ultima8/usecode/usecode.h"
 #include "ultima/ultima8/games/game_data.h"
 #include "ultima/ultima8/usecode/uc_machine.h"
 #include "ultima/ultima8/usecode/uc_list.h"
 #include "ultima/ultima8/world/world.h"
-#include "ultima/ultima8/kernel/delay_process.h"
-#include "ultima/ultima8/world/container.h"
-#include "ultima/ultima8/world/actors/actor.h"
 #include "ultima/ultima8/kernel/kernel.h"
 #include "ultima/ultima8/world/get_object.h"
-#include "ultima/ultima8/gumps/game_map_gump.h"
 #include "ultima/ultima8/graphics/main_shape_archive.h"
 #include "ultima/ultima8/graphics/gump_shape_archive.h"
-#include "ultima/ultima8/graphics/anim_dat.h"
 #include "ultima/ultima8/graphics/shape.h"
-#include "ultima/ultima8/graphics/shape_info.h"
 #include "ultima/ultima8/world/item_factory.h"
 #include "ultima/ultima8/world/current_map.h"
 #include "ultima/ultima8/world/fire_type.h"
-#include "ultima/ultima8/usecode/uc_stack.h"
-#include "ultima/ultima8/misc/direction.h"
 #include "ultima/ultima8/misc/direction_util.h"
 #include "ultima/ultima8/gumps/bark_gump.h"
 #include "ultima/ultima8/gumps/ask_gump.h"
-#include "ultima/ultima8/gumps/gump_notify_process.h"
 #include "ultima/ultima8/world/actors/actor_bark_notify_process.h"
-#include "ultima/ultima8/gumps/container_gump.h"
 #include "ultima/ultima8/gumps/paperdoll_gump.h"
 #include "ultima/ultima8/gumps/game_map_gump.h"
 #include "ultima/ultima8/world/world_point.h"
@@ -64,7 +52,6 @@
 #include "ultima/ultima8/world/snap_process.h"
 #include "ultima/ultima8/world/super_sprite_process.h"
 #include "ultima/ultima8/audio/audio_process.h"
-#include "ultima/ultima8/games/game_info.h"
 #include "ultima/ultima8/world/actors/main_actor.h"
 #include "ultima/ultima8/world/missile_tracker.h"
 #include "ultima/ultima8/world/crosshair_process.h"
@@ -616,6 +603,28 @@ bool Item::isOnScreen() const {
 	return false;
 }
 
+bool Item::isPartlyOnScreen() const {
+	GameMapGump *game_map = Ultima8Engine::get_instance()->getGameMapGump();
+
+	if (!game_map)
+		return false;
+
+	Rect game_map_dims;
+	int32 screenx = -1;
+	int32 screeny = -1;
+	game_map->GetLocationOfItem(_objId, screenx, screeny);
+	game_map->GetDims(game_map_dims);
+	int32 xd, yd, zd;
+	getFootpadWorld(xd, yd, zd);
+
+	if (game_map_dims.contains(screenx, screeny) ||
+		game_map_dims.contains(screenx + xd, screeny + yd)) {
+		return true;
+	}
+
+	return false;
+}
+
 bool Item::canExistAt(int32 x, int32 y, int32 z, bool needsupport) const {
 	CurrentMap *cm = World::get_instance()->getCurrentMap();
 	const Item *support;
@@ -1120,8 +1129,11 @@ int32 Item::collideMove(int32 dx, int32 dy, int32 dz, bool teleport, bool force,
 			uint16 proc_gothit = 0, proc_rel = 0;
 
 			// If hitting at start, we should have already
-			// called gotHit and hit.
-			if ((!it->_touching || it->_touchingFloor) && it->_hitTime >= 0) {
+			// called gotHit and hit.  In Crusader we call
+			// hit for every hitting frame to make sickbays
+			// and teleporters work.
+			bool call_hit = it->_hitTime >= 0 || GAME_IS_CRUSADER;
+			if ((!it->_touching || it->_touchingFloor) && call_hit) {
 				if (_objId == 1 && guiapp->isShowTouchingItems())
 					item->setExtFlag(Item::EXT_HIGHLIGHT);
 
@@ -1302,7 +1314,7 @@ uint16 Item::fireDistance(Item *other, Direction dir, int16 xoff, int16 yoff, in
 	Actor *a = dynamic_cast<Actor *>(this);
 	if (a) {
 		Animation::Sequence anim;
-		bool kneeling = a->hasActorFlags(Actor::ACT_KNEELING);
+		bool kneeling = a->isKneeling();
 		bool smallwpn = true;
 		MainActor *ma = dynamic_cast<MainActor *>(this);
 		Item *wpn = getItem(a->getActiveWeapon());
@@ -1768,6 +1780,7 @@ void Item::enterFastArea() {
 			if (actor && GAME_IS_CRUSADER) {
 				actor->clearLastActivityNo();
 				actor->clearInCombat();
+				actor->clearActorFlag(Actor::ACT_WEAPONREADY);
 			}
 			callUsecodeEvent_enterFastArea();
 		}

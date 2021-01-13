@@ -23,9 +23,8 @@
 #ifndef WORLD_ACTORS_CRUAVATARMOVERPROCESS_H
 #define WORLD_ACTORS_CRUAVATARMOVERPROCESS_H
 
-#include "ultima/ultima8/kernel/process.h"
-#include "ultima/ultima8/world/actors/animation.h"
 #include "ultima/ultima8/world/actors/avatar_mover_process.h"
+#include "ultima/ultima8/world/actors/animation.h"
 
 namespace Ultima {
 namespace Ultima8 {
@@ -67,7 +66,6 @@ private:
 	void handleHangingMode() override;
 	void handleCombatMode() override;
 	void handleNormalMode() override;
-	bool canAttack() override;
 
 	void step(Animation::Sequence action, Direction direction, bool adjusted = false);
 

@@ -20,25 +20,19 @@
  *
  */
 
-#include "ultima/ultima8/misc/pent_include.h"
 #include "ultima/ultima8/world/actors/main_actor.h"
 #include "ultima/ultima8/world/teleport_egg.h"
 #include "ultima/ultima8/world/current_map.h"
-#include "ultima/ultima8/kernel/process.h"
 #include "ultima/ultima8/kernel/kernel.h"
 #include "ultima/ultima8/world/actors/teleport_to_egg_process.h"
 #include "ultima/ultima8/world/target_reticle_process.h"
 #include "ultima/ultima8/world/camera_process.h"
-#include "ultima/ultima8/world/actors/animation.h"
 #include "ultima/ultima8/ultima8.h"
 #include "ultima/ultima8/world/actors/avatar_death_process.h"
 #include "ultima/ultima8/kernel/delay_process.h"
-#include "ultima/ultima8/conf/setting_manager.h"
-#include "ultima/ultima8/kernel/core_app.h"
 #include "ultima/ultima8/games/game_data.h"
 #include "ultima/ultima8/graphics/anim_dat.h"
 #include "ultima/ultima8/graphics/wpn_ovlay_dat.h"
-#include "ultima/ultima8/graphics/shape_info.h"
 #include "ultima/ultima8/graphics/main_shape_archive.h"
 #include "ultima/ultima8/gumps/cru_pickup_area_gump.h"
 #include "ultima/ultima8/audio/audio_process.h"
@@ -689,7 +683,7 @@ void MainActor::nextInvItem() {
 
 void MainActor::addFireAnimOffsets(int32 &x, int32 &y, int32 &z) {
 	assert(GAME_IS_CRUSADER);
-	Animation::Sequence fireanim = (hasActorFlags(ACT_KNEELING) ? Animation::kneelAndFire : Animation::attack);
+	Animation::Sequence fireanim = (isKneeling() ? Animation::kneelAndFire : Animation::attack);
 	uint32 actionno = AnimDat::getActionNumberForSequence(fireanim, this);
 	Direction dir = getDir();
 
